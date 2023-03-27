@@ -5,7 +5,8 @@ import android.os.Bundle
 import com.example.reddit.databinding.ActivityMainBinding
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         var retrofit = Retrofit.Builder()
             .baseUrl("https://www.reddit.com/$to100$filter")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
 
@@ -27,3 +28,19 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+class RedditTopResponse(val data: RedditDataResponse)
+
+class RedditDataResponse(
+    val children: List<RedditChildrenResponse>,
+    val after: String,
+    val before: String,
+)
+
+class RedditChildrenResponse(val data: RedditTopDataResponse)
+
+class RedditTopDataResponse(
+    val author: String,
+    val url: String,
+
+
+)
