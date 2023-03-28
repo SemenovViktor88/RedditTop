@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             val result = quotesApi.getTop()
             if (result != null)
             // Checking the results
-                Log.d("Mylog: ", result.toString())
+                Log.d("Myloger: ", result.toString())
         }
     }
 }
