@@ -1,5 +1,7 @@
 package com.example.reddit.model
 
-import com.example.reddit.RedditData
 
-data class RedditTop(val data: RedditData)
+data class RedditTop(
+    val kind: String,
+    val data: RedditData,
+)

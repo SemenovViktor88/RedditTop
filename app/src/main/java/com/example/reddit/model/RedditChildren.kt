@@ -1,3 +1,6 @@
 package com.example.reddit.model
 
-data class RedditChildren(val data: RedditTopData)
+data class RedditChildren(
+    val kind: String,
+    val data: RedditTopData,
+)
