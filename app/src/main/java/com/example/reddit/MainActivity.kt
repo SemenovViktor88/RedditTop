@@ -3,9 +3,13 @@ package com.example.reddit
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.reddit.databinding.ActivityMainBinding
-import retrofit2.Converter
+import com.example.reddit.model.RedditTop
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,29 +22,25 @@ class MainActivity : AppCompatActivity() {
         val to100 = "top.json?"
         val filter = "limit100"
 
-        var retrofit = Retrofit.Builder()
-            .baseUrl("https://www.reddit.com/$to100$filter")
+
+    }
+    private val redditApi: RedditApi
+    init {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://www.reddit.com")
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
-
-
-
+        redditApi = retrofit.create(RedditApi::class.java)
+    }
+    fun getNews(after: String, limit: String): Call<RedditTop>{
+        return redditApi.getTop(after, limit)
     }
 
 }
-class RedditTopResponse(val data: RedditDataResponse)
 
-class RedditDataResponse(
-    val children: List<RedditChildrenResponse>,
-    val after: String,
-    val before: String,
-)
-
-class RedditChildrenResponse(val data: RedditTopDataResponse)
-
-class RedditTopDataResponse(
-    val author: String,
-    val url: String,
-
-
-)
+interface RedditApi{
+    @GET("/top.json")
+    fun getTop(@Query("after") after: String,
+               @Query("limit") limit: String)
+            : Call<RedditTop>
+}
