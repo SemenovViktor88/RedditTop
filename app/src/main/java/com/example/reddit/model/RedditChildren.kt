@@ -1,6 +1,6 @@
 package com.example.reddit.model
 
 data class RedditChildren(
-    val kind: String,
-    val data: RedditTopData,
+    val kind: String? = null,
+    val data: RedditTopData? = null,
 )

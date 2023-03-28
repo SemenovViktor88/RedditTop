@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 interface  RedditApi {
     @GET("/top.json")
-    fun getTop()
-            : Call<RedditTop>;
+    fun getTopList()
+            : Call<MutableList<RedditTop>>;
 }

@@ -1,15 +1,21 @@
 package com.example.reddit.model
 
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.Url
 
 object RetrofitHelper {
 
-    val baseUrl = "https://www.reddit.com/"
+    private var retrofit: Retrofit? = null
 
-    fun getInstance(): Retrofit {
-        return Retrofit.Builder().baseUrl(baseUrl)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
+    fun getClient(baseUrl: String): Retrofit {
+        if (retrofit == null) {
+            retrofit = Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
+        return retrofit!!
     }
 }
