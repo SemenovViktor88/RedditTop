@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         val topApi = Common.retrofitService
 
 
-       Log.d("Mylog:", topApi.getTopList().toString())
+       Log.d("Mylog:", topApi.toString())
 
     }
 }
