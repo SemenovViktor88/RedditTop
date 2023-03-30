@@ -1,4 +1,4 @@
-package com.example.reddit
+package com.semenov.reddit
 
 import org.junit.Test
 

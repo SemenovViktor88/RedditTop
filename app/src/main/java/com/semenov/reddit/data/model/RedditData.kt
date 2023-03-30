@@ -1,4 +1,4 @@
-package com.example.reddit.model
+package com.semenov.reddit.data.model
 
 
 data class RedditData(
