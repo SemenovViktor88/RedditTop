@@ -8,5 +8,4 @@ object InstanceProvider {
 	val retrofitService: RedditApi
 		get() = RetrofitHelper.getClient(BASE_URL)
 			.create(RedditApi::class.java)
-
 }
