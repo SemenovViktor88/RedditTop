@@ -2,9 +2,11 @@ package com.semenov.reddit.presentation
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.semenov.reddit.R
 import com.semenov.reddit.data.InstanceProvider
 import com.semenov.reddit.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val topApi = InstanceProvider.retrofitService
+
 
 
         lifecycleScope.launch {
