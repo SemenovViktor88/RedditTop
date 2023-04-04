@@ -10,8 +10,11 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.semenov.reddit.R
 import com.semenov.reddit.data.model.ApiReddit
+import com.squareup.picasso.Picasso
+
 
 class MyRedditAdapter(private val context: Context, private val apiReddits: MutableList<ApiReddit>):
+
     RecyclerView.Adapter<MyRedditAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -42,10 +45,9 @@ class MyRedditAdapter(private val context: Context, private val apiReddits: Muta
         val listItem = apiReddits[position]
         holder.bind(listItem)
 
-        Picasso.get().load(apiReddits[position].imageurl).into(holder.image)
-        holder.txt_name.text = apiReddits[position].name
-        holder.txt_team.text = apiReddits[position].team
-        holder.txt_createdby.text = apiReddits[position].createdby
+        Picasso.get().load(apiReddits[position].thumbnail).into(holder.image)
+        holder.txt_name.text = apiReddits[position].author
+        holder.txt_team.text = apiReddits[position].subreddit
+        holder.txt_createdby.text = apiReddits[position].title
     }
-
 }
