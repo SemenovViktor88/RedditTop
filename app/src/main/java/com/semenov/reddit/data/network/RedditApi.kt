@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface  RedditApi {
     @GET("/top.json")
-    fun getTopList(): Call<MutableList<RootList>>
+    suspend fun getTopList(): RootList?
 }
