@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 
 
 data class ApiRedditPage(
-    @Json(name = "children")
-    val children: List<ApiRedditChildren>? = null,
+    @field:Json(name = "children")
+    val item: List<ApiRedditChildren>? = null,
     val after: String? = null,
 )
