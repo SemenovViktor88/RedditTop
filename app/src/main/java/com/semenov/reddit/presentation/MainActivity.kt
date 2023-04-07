@@ -20,41 +20,42 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-	lateinit var binding: ActivityMainBinding
-	lateinit var topApi: RedditApi
-	private var adapter = MyRedditAdapter()
-	private val myLifeData = MutableLiveData<List<ApiRedditChildren>>()
+    lateinit var binding: ActivityMainBinding
+    lateinit var topApi: RedditApi
+    private var adapter = MyRedditAdapter()
+    private val myLifeData = MutableLiveData<List<ApiRedditChildren>>()
 
 
-	override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
 
-		super.onCreate(savedInstanceState)
-		binding = ActivityMainBinding.inflate(layoutInflater)
-		setContentView(binding.root)
-		init()
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-		topApi = InstanceProvider.retrofitService
+        init()
 
-		loadTopList()
-		myLifeData.observe(this) {
-			getAllMovieList(it)
-		}
-	}
+        topApi = InstanceProvider.retrofitService
 
-	private fun loadTopList() = lifecycleScope.launch {
-		val result = topApi.getTopList()?.data?.item!!
-		myLifeData.postValue(result)
-	}
+        loadTopList()
+        myLifeData.observe(this) {
+            getAllMovieList(it)
+        }
+    }
+
+    private fun loadTopList() = lifecycleScope.launch {
+        val result = topApi.getTopList()?.data?.item!!
+        myLifeData.postValue(result)
+    }
 
 
-	private fun getAllMovieList(list: List<ApiRedditChildren>) {
-		adapter.onNewData(list)
-	}
+    private fun getAllMovieList(list: List<ApiRedditChildren>) {
+        adapter.onNewData(list)
+    }
 
-	private fun init() {
-		binding.apply {
-			rcView.layoutManager = LinearLayoutManager(this@MainActivity)
-			rcView.adapter = adapter
-		}
-	}
+    private fun init() {
+        binding.apply {
+            rcView.layoutManager = LinearLayoutManager(this@MainActivity)
+            rcView.adapter = adapter
+        }
+    }
 }
