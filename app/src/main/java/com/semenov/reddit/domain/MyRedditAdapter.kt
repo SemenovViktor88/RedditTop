@@ -12,7 +12,7 @@ import com.semenov.reddit.presentation.MainActivity
 import com.squareup.picasso.Picasso
 
 
-class MyRedditAdapter(/*private val context: Context, */) : RecyclerView.Adapter<MyRedditAdapter.MyViewHolder>() {
+class MyRedditAdapter : RecyclerView.Adapter<MyRedditAdapter.MyViewHolder>() {
     private val apiReddits= mutableListOf<ApiRedditChildren>()
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = ItemLayoutBinding.bind(itemView)
@@ -21,7 +21,6 @@ class MyRedditAdapter(/*private val context: Context, */) : RecyclerView.Adapter
             txtTeam.text = listItem.data?.title
             txtCreatedby.text = listItem.data?.url
             Picasso.get().load(listItem.data?.thumbnail).into(imageMovie)
-
         }
     }
 
@@ -34,7 +33,6 @@ class MyRedditAdapter(/*private val context: Context, */) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val listItem = apiReddits[position]
         holder.bind(listItem)
-
     }
 
     override fun getItemCount() = apiReddits.size
