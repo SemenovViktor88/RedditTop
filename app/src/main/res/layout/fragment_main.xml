@@ -8,17 +8,6 @@
     android:background="#858282"
     tools:context=".MainFragment">
 
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Main Fragment"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/placeHolder"
         android:layout_width="match_parent"

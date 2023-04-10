@@ -27,6 +27,8 @@ class MainFragment : Fragment() {
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		binding = FragmentMainBinding.inflate(inflater, container, false)
 
+//		parentFragmentManager.beginTransaction().replace(R.id.placeHolder, NewsFragment.newInstance()).commit()
+
 		init()
 		topApi = InstanceProvider.retrofitService
 		loadTopList()

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Etsy Client</string>
+    <string name="app_name">Reddit</string>
     <string name="tab1">Search</string>
     <string name="tab2">Saved</string>
     <string name="title_activity_detail_sub">DetailActivitySub</string>
