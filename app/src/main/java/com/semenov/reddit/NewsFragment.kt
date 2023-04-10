@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+
 import com.semenov.reddit.data.InstanceProvider
 import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.data.network.RedditApi
@@ -21,6 +23,7 @@ class NewsFragment : Fragment() {
     private var adapter = NewsFragmentAdapter()
     private val myLifeData = MutableLiveData<List<ApiRedditChildren>>()
     lateinit var topApi: RedditApi
+    lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
@@ -50,7 +53,7 @@ class NewsFragment : Fragment() {
     }
 
     private fun init() {
-
+//        binding.rcViewNewsFragment.layoutManager = LinearLayoutManager(this)
         binding.rcViewNewsFragment.adapter = adapter
 
     }
