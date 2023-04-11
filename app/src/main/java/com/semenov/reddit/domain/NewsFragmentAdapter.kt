@@ -12,7 +12,6 @@ import com.squareup.picasso.Picasso
 
 class NewsFragmentAdapter: RecyclerView.Adapter<NewsFragmentAdapter.MyViewHolder>() {
     private val api= mutableListOf<ApiRedditChildren>()
-
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val binding = ItemLayoutBinding.bind(itemView)
         fun bind(listItem: ApiRedditChildren) = with(binding) {

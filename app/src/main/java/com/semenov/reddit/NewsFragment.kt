@@ -13,6 +13,7 @@ import com.semenov.reddit.data.InstanceProvider
 import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.data.network.RedditApi
 import com.semenov.reddit.databinding.FragmentNewsBinding
+import com.semenov.reddit.domain.MyRedditAdapter
 
 import com.semenov.reddit.domain.NewsFragmentAdapter
 import kotlinx.coroutines.launch
@@ -23,7 +24,6 @@ class NewsFragment : Fragment() {
     private var adapter = NewsFragmentAdapter()
     private val myLifeData = MutableLiveData<List<ApiRedditChildren>>()
     lateinit var topApi: RedditApi
-    lateinit var layoutManager: LinearLayoutManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentNewsBinding.inflate(inflater, container, false)

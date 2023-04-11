@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.semenov.reddit.MainFragment
+import com.semenov.reddit.NewsFragment
 import com.semenov.reddit.R
 import com.semenov.reddit.data.InstanceProvider
 
@@ -27,20 +28,14 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 	val adapter = ViewPagerAdapter(this)
-	lateinit var binding: FragmentMainBinding
+	lateinit var binding: ActivityMainBinding
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 
 		super.onCreate(savedInstanceState)
-		binding = FragmentMainBinding.inflate(layoutInflater)
+		binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
-		supportActionBar?.setDisplayHomeAsUpEnabled(true)
-		supportFragmentManager.beginTransaction().replace(R.id.viewPager, MainFragment.newInstance()).commit()
-
-	}
-
-	override fun onOptionsItemSelected(item: MenuItem): Boolean {
-		if (item.itemId == android.R.id.home) finish()
-		return true
+		supportFragmentManager.beginTransaction().
+			replace(R.id.frameLayoutMainActivity, NewsFragment.newInstance()).commit()
 	}
 }

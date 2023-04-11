@@ -15,6 +15,7 @@ import com.semenov.reddit.data.InstanceProvider
 import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.data.network.RedditApi
 import com.semenov.reddit.databinding.FragmentMainBinding
+import com.semenov.reddit.domain.NewsFragmentAdapter
 import com.semenov.reddit.domain.ViewPagerAdapter
 import com.semenov.reddit.presentation.MainActivity
 import kotlinx.coroutines.launch
@@ -22,12 +23,12 @@ import java.text.FieldPosition
 
 lateinit var layoutManager: LinearLayoutManager
 class MainFragment : Fragment() {
-	private val api= mutableListOf<ApiRedditChildren>()
 	private lateinit var binding: FragmentMainBinding
+
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		binding = FragmentMainBinding.inflate(inflater, container, false)
-		parentFragmentManager.beginTransaction().replace(R.id.rcViewNewsFragment, NewsFragment.newInstance()).commit()
+		parentFragmentManager.beginTransaction().replace(R.id.viewPager, NewsFragment.newInstance()).commit()
 		init()
 		return binding.root
 	}
