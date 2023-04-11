@@ -55,6 +55,5 @@ class NewsFragment : Fragment() {
     private fun init() {
 //        binding.rcViewNewsFragment.layoutManager = LinearLayoutManager(this)
         binding.rcViewNewsFragment.adapter = adapter
-
     }
 }

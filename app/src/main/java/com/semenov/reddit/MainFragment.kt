@@ -1,46 +1,40 @@
 package com.semenov.reddit
 
-import android.content.Context
-import android.content.ContextParams
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.semenov.reddit.data.InstanceProvider
-import com.semenov.reddit.data.model.ApiRedditChildren
-import com.semenov.reddit.data.network.RedditApi
 import com.semenov.reddit.databinding.FragmentMainBinding
-import com.semenov.reddit.domain.NewsFragmentAdapter
 import com.semenov.reddit.domain.ViewPagerAdapter
 import com.semenov.reddit.presentation.MainActivity
-import kotlinx.coroutines.launch
-import java.text.FieldPosition
 
-lateinit var layoutManager: LinearLayoutManager
 class MainFragment : Fragment() {
-	private lateinit var binding: FragmentMainBinding
+    private lateinit var binding: FragmentMainBinding
+    private val fragList = listOf(
+        NewsFragment.newInstance(),
+        SaveFragment.newInstance()
+    )
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        init()
+        return binding.root
+    }
+
+    private fun init() {
+        val adapter = ViewPagerAdapter(activity as MainActivity, fragList)
+        binding.viewPager.adapter = adapter
+    }
 
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		binding = FragmentMainBinding.inflate(inflater, container, false)
-		parentFragmentManager.beginTransaction().replace(R.id.viewPager, NewsFragment.newInstance()).commit()
-		init()
-		return binding.root
-	}
+    companion object {
 
-	private fun init() {
-		binding.viewPager.adapter = MainActivity().adapter
-	}
-
-
-	companion object {
-
-		@JvmStatic
-		fun newInstance() = MainFragment()
-	}
+        @JvmStatic
+        fun newInstance() = MainFragment()
+    }
 }

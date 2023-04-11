@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso
 class MyRedditAdapter : RecyclerView.Adapter<MyRedditAdapter.MyViewHolder>() {
     private val apiReddits= mutableListOf<ApiRedditChildren>()
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = ItemLayoutBinding.bind(itemView)
+        private val binding = ItemLayoutBinding.bind(itemView)
         fun bind(listItem: ApiRedditChildren) = with(binding) {
             txtName.text = listItem.data?.author
             txtTeam.text = listItem.data?.title
