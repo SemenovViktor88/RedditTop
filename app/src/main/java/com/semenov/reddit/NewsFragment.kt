@@ -13,9 +13,10 @@ import com.semenov.reddit.data.InstanceProvider
 import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.data.network.RedditApi
 import com.semenov.reddit.databinding.FragmentNewsBinding
-import com.semenov.reddit.domain.MyRedditAdapter
 
 import com.semenov.reddit.domain.NewsFragmentAdapter
+import com.semenov.reddit.presentation.InfoRedditFragment
+import com.semenov.reddit.presentation.MainActivity
 import kotlinx.coroutines.launch
 
 class NewsFragment : Fragment() {
@@ -34,6 +35,8 @@ class NewsFragment : Fragment() {
         myLifeData.observe(viewLifecycleOwner) {
             getAllMovieList(it)
         }
+
+
         return binding.root
     }
 
@@ -41,6 +44,10 @@ class NewsFragment : Fragment() {
 
         @JvmStatic
         fun newInstance() = NewsFragment()
+
+    }
+    fun openInfo() {
+        InfoRedditFragment.newInstance()
     }
     private fun loadTopList() = lifecycleScope.launch {
         val result = topApi.getTopList()?.data?.item!!
@@ -53,7 +60,7 @@ class NewsFragment : Fragment() {
     }
 
     private fun init() {
-//        binding.rcViewNewsFragment.layoutManager = LinearLayoutManager(this)
+        binding.rcViewNewsFragment.layoutManager = LinearLayoutManager(activity as MainActivity)
         binding.rcViewNewsFragment.adapter = adapter
     }
 }

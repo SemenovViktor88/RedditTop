@@ -4,9 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.semenov.reddit.NewsFragment
 import com.semenov.reddit.R
 import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.databinding.ItemLayoutBinding
+import com.semenov.reddit.presentation.InfoRedditFragment
 
 import com.squareup.picasso.Picasso
 
@@ -15,10 +17,13 @@ class NewsFragmentAdapter: RecyclerView.Adapter<NewsFragmentAdapter.MyViewHolder
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val binding = ItemLayoutBinding.bind(itemView)
         fun bind(listItem: ApiRedditChildren) = with(binding) {
-            txtName.text = listItem.data?.author
-            txtTeam.text = listItem.data?.title
-            txtCreatedby.text = listItem.data?.url
-            Picasso.get().load(listItem.data?.thumbnail).into(imageMovie)
+            name.text = listItem.data?.author
+            title.text = listItem.data?.title
+            numComments.text = listItem.data?.num_comments.toString()
+            Picasso.get().load(listItem.data?.thumbnail).into(image)
+            image.setOnClickListener {
+                InfoRedditFragment.newInstance()
+           }
         }
     }
 
@@ -32,6 +37,7 @@ class NewsFragmentAdapter: RecyclerView.Adapter<NewsFragmentAdapter.MyViewHolder
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val listItem = api[position]
         holder.bind(listItem)
+
     }
     fun onNew(list : List<ApiRedditChildren>){
         api.addAll(list)
