@@ -15,52 +15,51 @@ import com.semenov.reddit.data.network.RedditApi
 import com.semenov.reddit.databinding.FragmentNewsBinding
 
 import com.semenov.reddit.domain.NewsFragmentAdapter
-import com.semenov.reddit.presentation.InfoRedditFragment
 import com.semenov.reddit.presentation.MainActivity
 import kotlinx.coroutines.launch
 
 class NewsFragment : Fragment() {
 
-    private lateinit var binding: FragmentNewsBinding
-    private var adapter = NewsFragmentAdapter()
-    private val myLifeData = MutableLiveData<List<ApiRedditChildren>>()
-    lateinit var topApi: RedditApi
+	private lateinit var binding: FragmentNewsBinding
+	private var adapter = NewsFragmentAdapter()
+	private val myLifeData = MutableLiveData<List<ApiRedditChildren>>()
+	lateinit var topApi: RedditApi
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentNewsBinding.inflate(inflater, container, false)
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		binding = FragmentNewsBinding.inflate(inflater, container, false)
+		init()
+		topApi = InstanceProvider.retrofitService
+		loadTopList()
+		myLifeData.observe(viewLifecycleOwner) {
+			getAllMovieList(it)
+		}
+		return binding.root
+	}
 
-        init()
-        topApi = InstanceProvider.retrofitService
-        loadTopList()
-        myLifeData.observe(viewLifecycleOwner) {
-            getAllMovieList(it)
-        }
+	companion object {
+
+		@JvmStatic
+		fun newInstance() = NewsFragment()
+
+	}
+
+	fun openInfo() {
+		val infoFragment = InfoRedditFragment()
+		childFragmentManager.beginTransaction().add(R.id.constrain_main_fragment, infoFragment).commit()
+	}
+
+	private fun loadTopList() = lifecycleScope.launch {
+		val result = topApi.getTopList()?.data?.item!!
+		myLifeData.postValue(result)
+	}
 
 
-        return binding.root
-    }
+	private fun getAllMovieList(list: List<ApiRedditChildren>) {
+		adapter.onNew(list)
+	}
 
-    companion object {
-
-        @JvmStatic
-        fun newInstance() = NewsFragment()
-
-    }
-    fun openInfo() {
-        InfoRedditFragment.newInstance()
-    }
-    private fun loadTopList() = lifecycleScope.launch {
-        val result = topApi.getTopList()?.data?.item!!
-        myLifeData.postValue(result)
-    }
-
-
-    private fun getAllMovieList(list: List<ApiRedditChildren>) {
-        adapter.onNew(list)
-    }
-
-    private fun init() {
-        binding.rcViewNewsFragment.layoutManager = LinearLayoutManager(activity as MainActivity)
-        binding.rcViewNewsFragment.adapter = adapter
-    }
+	private fun init() {
+		binding.rcViewNewsFragment.layoutManager = LinearLayoutManager(activity as MainActivity)
+		binding.rcViewNewsFragment.adapter = adapter
+	}
 }
