@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.semenov.reddit.R
 import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.databinding.ItemLayoutBinding
-import com.semenov.reddit.InfoRedditFragment
 import com.semenov.reddit.NewsFragment
-
 import com.squareup.picasso.Picasso
 
 class NewsFragmentAdapter: RecyclerView.Adapter<NewsFragmentAdapter.MyViewHolder>() {
@@ -21,6 +19,7 @@ class NewsFragmentAdapter: RecyclerView.Adapter<NewsFragmentAdapter.MyViewHolder
             title.text = listItem.data?.title
             numComments.text = listItem.data?.num_comments.toString()
             Picasso.get().load(listItem.data?.thumbnail).into(image)
+            title.setOnClickListener { NewsFragment().openInfo() }
         }
     }
 

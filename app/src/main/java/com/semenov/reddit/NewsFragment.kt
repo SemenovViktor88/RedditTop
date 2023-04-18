@@ -40,12 +40,11 @@ class NewsFragment : Fragment() {
 
 		@JvmStatic
 		fun newInstance() = NewsFragment()
-
 	}
 
 	fun openInfo() {
-		val infoFragment = InfoRedditFragment()
-		childFragmentManager.beginTransaction().add(R.id.constrain_main_fragment, infoFragment).commit()
+		parentFragmentManager.beginTransaction().addToBackStack(null)
+			.replace(R.id.frameLayout, InfoRedditFragment.newInstance()).commit()
 	}
 
 	private fun loadTopList() = lifecycleScope.launch {
