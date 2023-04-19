@@ -28,7 +28,8 @@ class MainFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		adapter = ViewPagerAdapter(activity as MainActivity, fragList)
+		val activity = activity ?: return null
+		adapter = ViewPagerAdapter(activity, fragList)
 		binding = FragmentMainBinding.inflate(inflater, container, false)
 		navView = binding.bottomNavigationView
 		viewPager = binding.viewPager2

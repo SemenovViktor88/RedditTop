@@ -7,20 +7,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.semenov.reddit.R
 import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.databinding.ItemLayoutBinding
-import com.semenov.reddit.InfoRedditFragment
-import com.semenov.reddit.NewsFragment
+import com.semenov.reddit.ItemClickListener
 
 import com.squareup.picasso.Picasso
 
-class NewsFragmentAdapter: RecyclerView.Adapter<NewsFragmentAdapter.MyViewHolder>() {
-    private val api= mutableListOf<ApiRedditChildren>()
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+class NewsFragmentAdapter(private val listener: ItemClickListener): RecyclerView.Adapter<NewsFragmentAdapter.MyViewHolder>() {
+    private val redditsList= mutableListOf<ApiRedditChildren>()
+    private val myClickListener: View.OnClickListener = object : View.OnClickListener {
+        override fun onClick(v: View?) {
+            TODO("Not yet implemented")
+        }
+
+    }
+    inner class MyViewHolder(itemView: View, ) : RecyclerView.ViewHolder(itemView){
         val binding = ItemLayoutBinding.bind(itemView)
         fun bind(listItem: ApiRedditChildren) = with(binding) {
             name.text = listItem.data?.author
             title.text = listItem.data?.title
             numComments.text = listItem.data?.num_comments.toString()
             Picasso.get().load(listItem.data?.thumbnail).into(image)
+            title.setOnClickListener {
+                listener.onItemClicked() }
         }
     }
 
@@ -29,15 +36,15 @@ class NewsFragmentAdapter: RecyclerView.Adapter<NewsFragmentAdapter.MyViewHolder
         return MyViewHolder(view)
     }
 
-    override fun getItemCount() = api.size
+    override fun getItemCount() = redditsList.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val listItem = api[position]
+        val listItem = redditsList[position]
         holder.bind(listItem)
 
     }
     fun onNew(list : List<ApiRedditChildren>){
-        api.addAll(list)
+        redditsList.addAll(list)
         notifyDataSetChanged()
     }
 }

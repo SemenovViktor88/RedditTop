@@ -8,20 +8,18 @@ import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.semenov.reddit.data.InstanceProvider
 import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.data.network.RedditApi
 import com.semenov.reddit.databinding.FragmentNewsBinding
-
 import com.semenov.reddit.domain.NewsFragmentAdapter
 import com.semenov.reddit.presentation.MainActivity
 import kotlinx.coroutines.launch
 
-class NewsFragment : Fragment() {
+class NewsFragment : Fragment(), ItemClickListener {
 
 	private lateinit var binding: FragmentNewsBinding
-	private var adapter = NewsFragmentAdapter()
+	private var adapter = NewsFragmentAdapter(this)
 	private val myLifeData = MutableLiveData<List<ApiRedditChildren>>()
 	lateinit var topApi: RedditApi
 
@@ -44,8 +42,10 @@ class NewsFragment : Fragment() {
 	}
 
 	fun openInfo() {
-		val infoFragment = InfoRedditFragment()
-		childFragmentManager.beginTransaction().add(R.id.constrain_main_fragment, infoFragment).commit()
+		if (isAdded()) {
+		childFragmentManager.beginTransaction().add(R.id.frameLayout_newfragment, InfoRedditFragment()).commit()
+		}
+
 	}
 
 	private fun loadTopList() = lifecycleScope.launch {
@@ -59,7 +59,14 @@ class NewsFragment : Fragment() {
 	}
 
 	private fun init() {
-		binding.rcViewNewsFragment.layoutManager = LinearLayoutManager(activity as MainActivity)
+		binding.rcViewNewsFragment.layoutManager = LinearLayoutManager(context)
 		binding.rcViewNewsFragment.adapter = adapter
+	}
+
+	override fun onItemClicked() {
+		if(isAdded()){
+			parentFragmentManager.beginTransaction().addToBackStack(null)
+			.replace(R.id.frameLayoutMainActivity, InfoRedditFragment.newInstance()).commit()
+		}
 	}
 }
