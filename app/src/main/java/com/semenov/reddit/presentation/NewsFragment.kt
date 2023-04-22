@@ -1,19 +1,18 @@
-package com.semenov.reddit
+package com.semenov.reddit.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.semenov.reddit.data.InstanceProvider
+import com.semenov.reddit.R
+import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.data.network.RedditApi
 import com.semenov.reddit.databinding.FragmentNewsBinding
-import com.semenov.reddit.domain.NewsFragmentAdapter
-import com.semenov.reddit.presentation.MainActivity
 import kotlinx.coroutines.launch
 
 class NewsFragment : Fragment(), ItemClickListener {
@@ -23,7 +22,11 @@ class NewsFragment : Fragment(), ItemClickListener {
 	private val myLifeData = MutableLiveData<List<ApiRedditChildren>>()
 	lateinit var topApi: RedditApi
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View? {
 		binding = FragmentNewsBinding.inflate(inflater, container, false)
 		init()
 		topApi = InstanceProvider.retrofitService
@@ -34,25 +37,23 @@ class NewsFragment : Fragment(), ItemClickListener {
 		return binding.root
 	}
 
+	override fun onItemClicked() {
+		if (isAdded()) {
+			parentFragmentManager.beginTransaction().addToBackStack(null)
+				.replace(R.id.frameLayoutMainActivity, InfoRedditFragment.newInstance()).commit()
+		}
+	}
+
 	companion object {
 
 		@JvmStatic
 		fun newInstance() = NewsFragment()
-
-	}
-
-	fun openInfo() {
-		if (isAdded()) {
-		childFragmentManager.beginTransaction().add(R.id.frameLayout_newfragment, InfoRedditFragment()).commit()
-		}
-
 	}
 
 	private fun loadTopList() = lifecycleScope.launch {
 		val result = topApi.getTopList()?.data?.item!!
 		myLifeData.postValue(result)
 	}
-
 
 	private fun getAllMovieList(list: List<ApiRedditChildren>) {
 		adapter.onNew(list)
@@ -61,12 +62,5 @@ class NewsFragment : Fragment(), ItemClickListener {
 	private fun init() {
 		binding.rcViewNewsFragment.layoutManager = LinearLayoutManager(context)
 		binding.rcViewNewsFragment.adapter = adapter
-	}
-
-	override fun onItemClicked() {
-		if(isAdded()){
-			parentFragmentManager.beginTransaction().addToBackStack(null)
-			.replace(R.id.frameLayoutMainActivity, InfoRedditFragment.newInstance()).commit()
-		}
 	}
 }

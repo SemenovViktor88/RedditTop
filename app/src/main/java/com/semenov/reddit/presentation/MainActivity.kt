@@ -3,11 +3,8 @@ package com.semenov.reddit.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.semenov.reddit.MainFragment
 import com.semenov.reddit.R
 import com.semenov.reddit.databinding.ActivityMainBinding
-import com.semenov.reddit.domain.ViewPagerAdapter
-
 
 class MainActivity : AppCompatActivity() {
 

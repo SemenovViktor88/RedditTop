@@ -1,18 +1,14 @@
-package com.semenov.reddit
+package com.semenov.reddit.presentation
 
-import android.app.Activity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.semenov.reddit.R
 import com.semenov.reddit.databinding.FragmentMainBinding
-import com.semenov.reddit.domain.ViewPagerAdapter
-import com.semenov.reddit.presentation.MainActivity
 
 class MainFragment : Fragment() {
 	private lateinit var binding: FragmentMainBinding
@@ -23,17 +19,16 @@ class MainFragment : Fragment() {
 	lateinit var navView: BottomNavigationView
 	private lateinit var viewPager: ViewPager2
 	private lateinit var adapter: ViewPagerAdapter
+
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		val activity = activity ?: return null
-		adapter = ViewPagerAdapter(activity, fragList)
+		adapter = ViewPagerAdapter(requireActivity(), fragList)
 		binding = FragmentMainBinding.inflate(inflater, container, false)
 		navView = binding.bottomNavigationView
 		viewPager = binding.viewPager2
-
 		init()
 		viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
 			override fun onPageSelected(position: Int) {
@@ -60,7 +55,6 @@ class MainFragment : Fragment() {
 
 		binding.viewPager2.adapter = adapter
 	}
-
 
 	companion object {
 		@JvmStatic
