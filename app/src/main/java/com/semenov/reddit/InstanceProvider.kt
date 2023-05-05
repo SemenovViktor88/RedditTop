@@ -1,4 +1,4 @@
-package com.semenov.reddit.data
+package com.semenov.reddit
 
 import com.semenov.reddit.data.network.RedditApi
 import com.semenov.reddit.data.network.RetrofitHelper
