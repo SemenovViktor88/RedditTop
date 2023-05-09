@@ -1,7 +1,6 @@
 package com.semenov.reddit.presentation.news
 
 import android.view.LayoutInflater
-import android.view.OnReceiveContentListener
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
