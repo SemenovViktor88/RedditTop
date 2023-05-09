@@ -1,12 +1,10 @@
 package com.semenov.reddit.presentation
 
-
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.semenov.reddit.R
 import com.semenov.reddit.databinding.ActivityMainBinding
 import com.semenov.reddit.presentation.main.MainFragment
-
 
 class MainActivity : AppCompatActivity() {
 

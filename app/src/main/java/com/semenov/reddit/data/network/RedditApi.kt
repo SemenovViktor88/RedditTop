@@ -4,6 +4,6 @@ import com.semenov.reddit.data.model.RootList
 import retrofit2.http.GET
 
 interface  RedditApi {
-    @GET("/top.json")
+    @GET("top.json")
     suspend fun getTopList(): RootList?
 }

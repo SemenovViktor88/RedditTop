@@ -56,7 +56,6 @@ class MainFragment : Fragment() {
         binding.viewPager2.adapter = adapter
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance() = MainFragment()
