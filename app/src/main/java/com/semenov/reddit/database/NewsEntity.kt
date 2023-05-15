@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class DatabaseNews(
+data class NewsEntity(
     @PrimaryKey
     val subreddit: String,
     val title: String,
