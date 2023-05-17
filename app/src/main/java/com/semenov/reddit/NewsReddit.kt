@@ -1,6 +1,6 @@
-package com.semenov.reddit.data.model
+package com.semenov.reddit
 
-data class ApiReddit(
+data class NewsReddit(
     val subreddit: String,
     val title: String,
     val thumbnail: String,
