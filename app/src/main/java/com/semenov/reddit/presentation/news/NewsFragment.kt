@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.semenov.reddit.NewsReddit
 import com.semenov.reddit.R
 import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.databinding.FragmentNewsBinding
@@ -21,12 +22,12 @@ class NewsFragment : Fragment(), ItemClickListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
         init()
         viewModel.loadTopList()
-        viewModel.myLifeData.observe(viewLifecycleOwner) {
+        viewModel.lifeData.observe(viewLifecycleOwner) {
             getAllMovieList(it)
         }
         return binding.root
@@ -45,7 +46,7 @@ class NewsFragment : Fragment(), ItemClickListener {
         fun newInstance() = NewsFragment()
     }
 
-    private fun getAllMovieList(list: List<ApiRedditChildren>) {
+    private fun getAllMovieList(list: List<NewsReddit>) {
         adapter.onNew(list)
     }
 

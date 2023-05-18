@@ -2,20 +2,31 @@ package com.semenov.reddit.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.semenov.reddit.InstanceProvider
+import com.semenov.reddit.NewsReddit
 import com.semenov.reddit.data.model.ApiRedditChildren
+import com.semenov.reddit.data.model.ApiRedditPage
+import com.semenov.reddit.data.model.toDatabaseModel
+import com.semenov.reddit.data.model.toDomainModel
 import com.semenov.reddit.data.network.RedditApi
 import com.semenov.reddit.database.NewsDatabase
+import com.semenov.reddit.database.NewsEntity
+import com.semenov.reddit.database.toDomainModel
 import kotlinx.coroutines.*
 
 class NewsRepository (private val database: NewsDatabase) {
-    val myLifeData: MutableLiveData<List<ApiRedditChildren>> = MutableLiveData()
+    val myLifeData: MutableLiveData<List<NewsReddit>> = MutableLiveData()
     var topApi: RedditApi = InstanceProvider.retrofitService
+    private lateinit var listNewsRedditEntity: List<NewsEntity>
+    private lateinit var listNewsReddit: List<NewsReddit>
 
-    suspend fun loadTopList() {
+    suspend fun loadTopList() : List<NewsReddit> {
         withContext(Dispatchers.IO) {
             val result = topApi.getTopList()?.data?.item!!
-//            database.newsDao().insertNews(result)
-            myLifeData.postValue(result)
+            listNewsRedditEntity = ApiRedditPage().toDatabaseModel(result)
+            database.newsDao().insertNews(listNewsRedditEntity)
+            listNewsReddit = listNewsRedditEntity.toDomainModel()
+            myLifeData.postValue(listNewsReddit)
         }
+        return listNewsReddit
     }
 }

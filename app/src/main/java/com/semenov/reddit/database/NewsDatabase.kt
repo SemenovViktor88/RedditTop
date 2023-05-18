@@ -6,11 +6,18 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = [NewsEntity::class], version = 1)
-abstract class NewsDatabase() : RoomDatabase(){
+abstract class NewsDatabase() : RoomDatabase() {
     abstract fun newsDao(): NewsDao
-    companion object{
-        fun getDatabase(context: Context) : NewsDatabase{
-            return Room.databaseBuilder(context, NewsDatabase::class.java, "News").build()
+}
+
+private lateinit var INSTANCE: NewsDatabase
+fun getDatabase(context: Context) : NewsDatabase {
+    synchronized(NewsDatabase::class.java) {
+        if (!::INSTANCE.isInitialized) {
+            INSTANCE = Room.databaseBuilder(context.applicationContext,
+                NewsDatabase::class.java,
+                "news").build()
         }
     }
+    return INSTANCE
 }
