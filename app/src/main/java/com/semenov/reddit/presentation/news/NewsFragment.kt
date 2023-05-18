@@ -26,7 +26,7 @@ class NewsFragment : Fragment(), ItemClickListener {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
         init()
-        viewModel.loadTopList()
+        viewModel.loadList()
         viewModel.lifeData.observe(viewLifecycleOwner) {
             getAllMovieList(it)
         }

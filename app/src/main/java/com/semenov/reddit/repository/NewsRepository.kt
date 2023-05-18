@@ -24,7 +24,9 @@ class NewsRepository (private val database: NewsDatabase) {
             val result = topApi.getTopList()?.data?.item!!
             listNewsRedditEntity = ApiRedditPage().toDatabaseModel(result)
             database.newsDao().insertNews(listNewsRedditEntity)
-            listNewsReddit = listNewsRedditEntity.toDomainModel()
+            val res = database.newsDao().getNews().toDomainModel()
+
+            listNewsReddit = res
             myLifeData.postValue(listNewsReddit)
         }
         return listNewsReddit
