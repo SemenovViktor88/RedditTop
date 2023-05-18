@@ -14,19 +14,19 @@ import com.semenov.reddit.database.toDomainModel
 import kotlinx.coroutines.*
 
 class NewsRepository (private val database: NewsDatabase) {
-    val myLifeData: MutableLiveData<List<NewsReddit>> = MutableLiveData()
-    var topApi: RedditApi = InstanceProvider.retrofitService
     private lateinit var listNewsRedditEntity: List<NewsEntity>
     private lateinit var listNewsReddit: List<NewsReddit>
+    val myLifeData: MutableLiveData<List<NewsReddit>> = MutableLiveData()
+    var topApi: RedditApi = InstanceProvider.retrofitService
 
     suspend fun loadTopList() : List<NewsReddit> {
         withContext(Dispatchers.IO) {
-            val result = topApi.getTopList()?.data?.item!!
-            listNewsRedditEntity = ApiRedditPage().toDatabaseModel(result)
+            val resultApi = topApi.getTopList()?.data?.item!!
+            listNewsRedditEntity = ApiRedditPage().toDatabaseModel(resultApi)
             database.newsDao().insertNews(listNewsRedditEntity)
-            val res = database.newsDao().getNews().toDomainModel()
+            val resultList = database.newsDao().getNews().toDomainModel()
 
-            listNewsReddit = res
+            listNewsReddit = resultList
             myLifeData.postValue(listNewsReddit)
         }
         return listNewsReddit

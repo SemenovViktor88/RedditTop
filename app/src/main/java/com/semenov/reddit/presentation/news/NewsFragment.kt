@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.semenov.reddit.NewsReddit
 import com.semenov.reddit.R
-import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.databinding.FragmentNewsBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.semenov.reddit.presentation.info.InfoRedditFragment
@@ -16,6 +15,7 @@ import com.semenov.reddit.presentation.info.InfoRedditFragment
 class NewsFragment : Fragment(), ItemClickListener {
 
     private lateinit var binding: FragmentNewsBinding
+    private lateinit var viewModel: NewsViewModel
     private var adapter = NewsFragmentAdapter(this)
 
     override fun onCreateView(
@@ -24,10 +24,10 @@ class NewsFragment : Fragment(), ItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
-        val viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
         init()
         viewModel.loadList()
-        viewModel.lifeData.observe(viewLifecycleOwner) {
+        viewModel.liveData.observe(viewLifecycleOwner) {
             getAllMovieList(it)
         }
         return binding.root
