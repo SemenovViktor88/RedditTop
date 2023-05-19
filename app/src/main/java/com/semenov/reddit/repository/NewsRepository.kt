@@ -3,10 +3,8 @@ package com.semenov.reddit.repository
 import androidx.lifecycle.MutableLiveData
 import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.NewsReddit
-import com.semenov.reddit.data.model.ApiRedditChildren
 import com.semenov.reddit.data.model.ApiRedditPage
 import com.semenov.reddit.data.model.toDatabaseModel
-import com.semenov.reddit.data.model.toDomainModel
 import com.semenov.reddit.data.network.RedditApi
 import com.semenov.reddit.database.NewsDatabase
 import com.semenov.reddit.database.NewsEntity
@@ -21,11 +19,10 @@ class NewsRepository (private val database: NewsDatabase) {
 
     suspend fun loadTopList() : List<NewsReddit> {
         withContext(Dispatchers.IO) {
-            val resultApi = topApi.getTopList()?.data?.item!!
+            val resultApi = topApi.getTopList()?.data?.children!!
             listNewsRedditEntity = ApiRedditPage().toDatabaseModel(resultApi)
             database.newsDao().insertNews(listNewsRedditEntity)
             val resultList = database.newsDao().getNews().toDomainModel()
-
             listNewsReddit = resultList
             myLifeData.postValue(listNewsReddit)
         }

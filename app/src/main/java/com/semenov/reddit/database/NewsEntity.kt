@@ -7,7 +7,7 @@ import com.semenov.reddit.NewsReddit
 
 @Entity(tableName = "news")
 data class NewsEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true) var id: Int? = null,
     @ColumnInfo(name = "subreddit") val subreddit: String,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "thumbnail") val thumbnail: String,
@@ -24,6 +24,7 @@ fun List<NewsEntity>.toDomainModel() : List<NewsReddit> {
             thumbnail = it.thumbnail,
             author = it.author,
             url = it.url,
-            num_comments = it.num_comments)
+            num_comments = it.num_comments
+        )
     }
 }

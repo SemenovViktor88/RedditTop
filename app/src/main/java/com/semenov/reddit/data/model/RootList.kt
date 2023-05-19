@@ -6,7 +6,7 @@ import com.semenov.reddit.database.NewsEntity
 data class RootList(val data: ApiRedditPage?,)
 
 fun ApiRedditPage.toDomainModel(list: List<ApiRedditChildren>): List<NewsReddit>  {
-    return item?.map {
+    return list.map {
         NewsReddit(
             subreddit = it.data!!.subreddit,
             title = it.data.title,
@@ -15,11 +15,11 @@ fun ApiRedditPage.toDomainModel(list: List<ApiRedditChildren>): List<NewsReddit>
             url = it.data.url,
             num_comments = it.data.num_comments
         )
-    }!!
+    }
 }
 
 fun ApiRedditPage.toDatabaseModel(list: List<ApiRedditChildren>): List<NewsEntity>  {
-    return item?.map {
+    return list.map {
         NewsEntity(
             subreddit = it.data!!.subreddit,
             title = it.data.title,
@@ -28,5 +28,5 @@ fun ApiRedditPage.toDatabaseModel(list: List<ApiRedditChildren>): List<NewsEntit
             url = it.data.url,
             num_comments = it.data.num_comments
         )
-    }!!
+    }
 }
