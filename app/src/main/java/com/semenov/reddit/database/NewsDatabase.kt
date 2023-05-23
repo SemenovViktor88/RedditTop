@@ -4,18 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.semenov.reddit.data.model.db.EntityReddit
 
-@Database(entities = [NewsEntity::class], version = 1)
-abstract class NewsDatabase() : RoomDatabase() {
-    abstract fun newsDao(): NewsDao
+@Database(entities = [EntityReddit::class], version = 1)
+abstract class RedditDatabase() : RoomDatabase() {
+    abstract fun newsDao(): Dao
 }
 
-private lateinit var INSTANCE: NewsDatabase
-fun getDatabase(context: Context) : NewsDatabase {
-    synchronized(NewsDatabase::class.java) {
+private lateinit var INSTANCE: RedditDatabase
+fun getDatabase(context: Context) : RedditDatabase {
+    synchronized(RedditDatabase::class.java) {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(context.applicationContext,
-                NewsDatabase::class.java,
+                RedditDatabase::class.java,
                 "news").build()
         }
     }

@@ -1,6 +1,6 @@
-package com.semenov.reddit
+package com.semenov.reddit.data.model.domain
 
-data class NewsReddit(
+data class Reddit(
     val subreddit: String,
     val title: String,
     val thumbnail: String,

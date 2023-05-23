@@ -2,30 +2,26 @@ package com.semenov.reddit.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.semenov.reddit.InstanceProvider
-import com.semenov.reddit.NewsReddit
-import com.semenov.reddit.data.model.ApiRedditPage
-import com.semenov.reddit.data.model.toDatabaseModel
+import com.semenov.reddit.data.model.domain.Reddit
+import com.semenov.reddit.data.model.db.EntityReddit
+import com.semenov.reddit.data.model.net.ApiRedditPage
+import com.semenov.reddit.data.model.net.toDomainModel
 import com.semenov.reddit.data.network.RedditApi
-import com.semenov.reddit.database.NewsDatabase
-import com.semenov.reddit.database.NewsEntity
-import com.semenov.reddit.database.toDomainModel
+import com.semenov.reddit.database.RedditDatabase
 import kotlinx.coroutines.*
 
-class NewsRepository (private val database: NewsDatabase) {
-    private lateinit var listNewsRedditEntity: List<NewsEntity>
-    private lateinit var listNewsReddit: List<NewsReddit>
-    val myLifeData: MutableLiveData<List<NewsReddit>> = MutableLiveData()
+class NewsRepository (private val database: RedditDatabase) {
+    private lateinit var listRedditEntity: List<EntityReddit>
+    private lateinit var listReddit: List<Reddit>
+    val myLifeData: MutableLiveData<List<Reddit>> = MutableLiveData()
     var topApi: RedditApi = InstanceProvider.retrofitService
 
-    suspend fun loadTopList() : List<NewsReddit> {
+    suspend fun loadTopList() : List<Reddit> {
         withContext(Dispatchers.IO) {
             val resultApi = topApi.getTopList()?.data?.children!!
-            listNewsRedditEntity = ApiRedditPage().toDatabaseModel(resultApi)
-            database.newsDao().insertNews(listNewsRedditEntity)
-            val resultList = database.newsDao().getNews().toDomainModel()
-            listNewsReddit = resultList
-            myLifeData.postValue(listNewsReddit)
+            listReddit = ApiRedditPage().toDomainModel(resultApi)
+            myLifeData.postValue(listReddit)
         }
-        return listNewsReddit
+        return listReddit
     }
 }

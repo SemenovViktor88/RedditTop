@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.semenov.reddit.NewsReddit
+import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.R
 import com.semenov.reddit.databinding.FragmentNewsBinding
 import com.semenov.reddit.presentation.ItemClickListener
@@ -46,7 +46,7 @@ class NewsFragment : Fragment(), ItemClickListener {
         fun newInstance() = NewsFragment()
     }
 
-    private fun getAllMovieList(list: List<NewsReddit>) {
+    private fun getAllMovieList(list: List<Reddit>) {
         adapter.onNew(list)
     }
 

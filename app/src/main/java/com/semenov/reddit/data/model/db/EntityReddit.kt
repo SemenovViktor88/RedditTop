@@ -1,12 +1,12 @@
-package com.semenov.reddit.database
+package com.semenov.reddit.data.model.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.semenov.reddit.NewsReddit
+import com.semenov.reddit.data.model.domain.Reddit
 
 @Entity(tableName = "news")
-data class NewsEntity(
+data class EntityReddit(
     @PrimaryKey(autoGenerate = true) var id: Int? = null,
     @ColumnInfo(name = "subreddit") val subreddit: String,
     @ColumnInfo(name = "title") val title: String,
@@ -16,9 +16,9 @@ data class NewsEntity(
     @ColumnInfo(name = "num_comments") val num_comments: Int,
 )
 
-fun List<NewsEntity>.toDomainModel() : List<NewsReddit> {
+fun List<EntityReddit>.toDomainModel() : List<Reddit> {
     return map {
-        NewsReddit(
+        Reddit(
             subreddit = it.subreddit,
             title = it.title,
             thumbnail = it.thumbnail,

@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.semenov.reddit.NewsReddit
+import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.R
 import com.semenov.reddit.databinding.ItemLayoutBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.squareup.picasso.Picasso
 
 class NewsFragmentAdapter(private val listener: ItemClickListener): RecyclerView.Adapter<NewsFragmentAdapter.MyViewHolder>() {
-    private val api= mutableListOf<NewsReddit>()
+    private val api= mutableListOf<Reddit>()
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val binding = ItemLayoutBinding.bind(itemView)
-        fun bind(listItem: NewsReddit) = with(binding) {
+        fun bind(listItem: Reddit) = with(binding) {
             name.text = listItem.author
             title.text = listItem.title
             numComments.text = listItem.num_comments.toString()
@@ -35,7 +35,7 @@ class NewsFragmentAdapter(private val listener: ItemClickListener): RecyclerView
         holder.bind(listItem)
     }
 
-    fun onNew(list : List<NewsReddit>){
+    fun onNew(list : List<Reddit>){
         api.addAll(list)
         notifyDataSetChanged()
     }
