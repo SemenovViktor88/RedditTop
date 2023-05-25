@@ -16,7 +16,7 @@
         <item name="android:editTextColor">?colorAccent</item>
         <item name="android:textColorHint">?text_color_secondary</item>
         <item name="main_background">@color/bg_color</item>
-        <item name="main_item_background">?colorPrimary</item>
+        <item name="main_item_background">@color/colorPrimary</item>
         <item name="text_color">@color/text_color</item>
         <item name="text_color_secondary">@color/text_color_secondary</item>
         <item name="error_color">@color/error</item>

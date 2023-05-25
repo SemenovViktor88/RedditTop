@@ -7,4 +7,6 @@ data class Reddit(
     val author: String,
     val url: String,
     val num_comments: Int,
+    val created: Long,
+    val ups: Int,
 )

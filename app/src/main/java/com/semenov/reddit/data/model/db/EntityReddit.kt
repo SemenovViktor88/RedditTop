@@ -14,6 +14,8 @@ data class EntityReddit(
     @ColumnInfo(name = "author") val author: String,
     @ColumnInfo(name = "url") val url: String,
     @ColumnInfo(name = "num_comments") val num_comments: Int,
+    @ColumnInfo(name = "created") val created: Long,
+    @ColumnInfo(name = "ups") val ups: Int,
 )
 
 fun List<EntityReddit>.toDomainModel() : List<Reddit> {
@@ -24,7 +26,9 @@ fun List<EntityReddit>.toDomainModel() : List<Reddit> {
             thumbnail = it.thumbnail,
             author = it.author,
             url = it.url,
-            num_comments = it.num_comments
+            num_comments = it.num_comments,
+            created = it.created,
+            ups = it.ups
         )
     }
 }
