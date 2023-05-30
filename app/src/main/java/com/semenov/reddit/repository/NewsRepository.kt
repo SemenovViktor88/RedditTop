@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.data.model.db.EntityReddit
+import com.semenov.reddit.data.model.domain.toDatabaseModel
 import com.semenov.reddit.data.model.net.ApiRedditPage
 import com.semenov.reddit.data.model.net.toDomainModel
 import com.semenov.reddit.data.network.RedditApi
@@ -23,5 +24,10 @@ class NewsRepository (private val database: RedditDatabase) {
             myLifeData.postValue(listReddit)
         }
         return listReddit
+    }
+
+    suspend fun isSaved(reddit: Reddit) {
+        val result = reddit.toDatabaseModel(reddit)
+        database.newsDao().insertNews(result)
     }
 }

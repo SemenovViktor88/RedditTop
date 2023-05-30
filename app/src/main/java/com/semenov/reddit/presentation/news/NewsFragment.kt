@@ -16,7 +16,7 @@ class NewsFragment : Fragment(), ItemClickListener {
 
     private lateinit var binding: FragmentNewsBinding
     private lateinit var viewModel: NewsViewModel
-    private var adapter = NewsFragmentAdapter(this)
+    private var adapter = RcAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,

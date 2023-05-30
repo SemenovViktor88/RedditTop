@@ -14,8 +14,8 @@ import com.semenov.reddit.presentation.save.SaveFragment
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
-    private val fragList = listOf(
-        NewsFragment.newInstance(),
+    private val fragList: List<Fragment> = listOf(
+        NewsFragment(),
         SaveFragment(),
     )
     lateinit var navView: BottomNavigationView

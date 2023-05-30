@@ -12,5 +12,5 @@ interface Dao {
     suspend fun getNews(): List<EntityReddit>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNews(news: List<EntityReddit>)
+    suspend fun insertNews(news: EntityReddit)
 }
