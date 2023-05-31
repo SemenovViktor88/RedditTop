@@ -7,17 +7,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.semenov.reddit.R
 
-class InfoRedditFragment : Fragment() {
+class InfoFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_info_reddit, container, false)
+        return inflater.inflate(R.layout.fragment_info, container, false)
     }
     companion object {
 
         @JvmStatic
-        fun newInstance() = InfoRedditFragment()
+        fun newInstance() = InfoFragment()
     }
 }

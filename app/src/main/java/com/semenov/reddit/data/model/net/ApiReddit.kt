@@ -27,8 +27,8 @@ data class ApiReddit(
     @field:Json(name = "ups") val ups: Int? = null,
 )
 
-fun ApiRedditPage.toDomainModel(list: List<ApiRedditChildren>): List<Reddit>  {
-    return list.map {
+fun ApiRedditPage?.toDomainModel(): List<Reddit>  {
+    return this?.children?.map {
         Reddit(
             subreddit = it.data?.subreddit ?: "",
             title = it.data?.title ?: "",
@@ -39,16 +39,16 @@ fun ApiRedditPage.toDomainModel(list: List<ApiRedditChildren>): List<Reddit>  {
             created = it.data?.created ?: 0,
             ups = it.data?.ups ?: 0,
         )
-    }
+    }.orEmpty()
 }
 
-fun ApiReddit.toDomainModel(api: ApiReddit) = Reddit(
-            subreddit = api.subreddit ?: "",
-            title = api.title ?: "",
-            thumbnail = api.thumbnail ?: "",
-            author = api.author ?: "",
-            url = api.url ?: "",
-            num_comments = api.num_comments ?: 0,
-            created = api.created ?: 0,
-            ups = api.ups ?: 0,
+fun ApiReddit.toDomainModel() = Reddit(
+            subreddit = subreddit ?: "",
+            title = title ?: "",
+            thumbnail = thumbnail ?: "",
+            author = author ?: "",
+            url = url ?: "",
+            num_comments = num_comments ?: 0,
+            created = created ?: 0,
+            ups = ups ?: 0,
         )

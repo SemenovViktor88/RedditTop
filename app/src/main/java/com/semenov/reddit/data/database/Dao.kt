@@ -1,4 +1,4 @@
-package com.semenov.reddit.database
+package com.semenov.reddit.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert

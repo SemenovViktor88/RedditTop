@@ -10,7 +10,7 @@ import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.R
 import com.semenov.reddit.databinding.FragmentNewsBinding
 import com.semenov.reddit.presentation.ItemClickListener
-import com.semenov.reddit.presentation.info.InfoRedditFragment
+import com.semenov.reddit.presentation.info.InfoFragment
 
 class NewsFragment : Fragment(), ItemClickListener {
 
@@ -36,8 +36,12 @@ class NewsFragment : Fragment(), ItemClickListener {
     override fun onItemClicked() {
         if (isAdded()) {
             parentFragmentManager.beginTransaction().addToBackStack(null)
-                .replace(R.id.frameLayoutMainActivity, InfoRedditFragment.newInstance()).commit()
+                .replace(R.id.frameLayoutMainActivity, InfoFragment.newInstance()).commit()
         }
+    }
+
+    override fun onSavedClicked() {
+
     }
 
     companion object {

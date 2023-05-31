@@ -13,15 +13,15 @@ data class Reddit(
     val ups: Int,
 )
 
-fun Reddit.toDatabaseModel (reddit: Reddit) : EntityReddit{
+fun Reddit.toDatabaseModel () : EntityReddit{
     return EntityReddit(
-        subreddit = reddit.subreddit,
-        title = reddit.title,
-        thumbnail = reddit.thumbnail,
-        author = reddit.author,
-        url = reddit.url,
-        num_comments = reddit.num_comments,
-        created = reddit.created,
-        ups = reddit.ups
+        subreddit = subreddit,
+        title = title,
+        thumbnail = thumbnail,
+        author = author,
+        url = url,
+        num_comments = num_comments,
+        created = created,
+        ups = ups
     )
 }

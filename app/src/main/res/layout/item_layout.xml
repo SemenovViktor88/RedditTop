@@ -82,11 +82,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_saved"
-            android:clickable="true"
+            app:backgroundTint="@color/colorAccentHint"
+            app:fabSize="mini"
+            app:tint="@color/colorAccent"
             app:elevation="@dimen/card_elevation"
             app:layout_constraintBottom_toBottomOf="@id/constrainlayout"
             app:layout_constraintEnd_toEndOf="@id/constrainlayout" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
