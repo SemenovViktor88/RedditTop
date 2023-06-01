@@ -17,13 +17,13 @@ object InstanceProvider {
 
 	fun init(context: Context) {
 		database = Room
-			.databaseBuilder(context.applicationContext, RedditDatabase::class.java, "news")
+			.databaseBuilder(context.applicationContext, RedditDatabase::class.java, "reddit")
 			.build()
 	}
 
 	fun getRepository(): RedditRepository {
 		synchronized(RedditRepository::class.java) {
-			return repository ?: RedditRepository(database, retrofitService)
+			return repository ?: RedditRepository(retrofitService, database)
 		}
 	}
 }

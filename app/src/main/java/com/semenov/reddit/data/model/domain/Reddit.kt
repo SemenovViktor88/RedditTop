@@ -3,6 +3,7 @@ package com.semenov.reddit.data.model.domain
 import com.semenov.reddit.data.model.db.EntityReddit
 
 data class Reddit(
+    val id: String,
     val subreddit: String,
     val title: String,
     val thumbnail: String,
@@ -13,8 +14,9 @@ data class Reddit(
     val ups: Int,
 )
 
-fun Reddit.toDatabaseModel () : EntityReddit{
+fun Reddit.toDatabaseModel(): EntityReddit {
     return EntityReddit(
+        id = id,
         subreddit = subreddit,
         title = title,
         thumbnail = thumbnail,

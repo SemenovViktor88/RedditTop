@@ -26,7 +26,7 @@ class NewsFragment : Fragment(), ItemClickListener {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
         init()
-        viewModel.loadList()
+        viewModel.getListRedditVM()
         viewModel.liveData.observe(viewLifecycleOwner) {
             getAllMovieList(it)
         }

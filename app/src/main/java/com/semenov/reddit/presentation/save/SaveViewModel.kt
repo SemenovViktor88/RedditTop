@@ -13,7 +13,7 @@ class SaveViewModel : ViewModel() {
     private val repository = InstanceProvider.getRepository()
 
     fun loadList() = viewModelScope.launch {
-        val result = repository.loadTopList()
+        val result = repository.getListRedditRepository()
         liveData.postValue(result)
     }
 }

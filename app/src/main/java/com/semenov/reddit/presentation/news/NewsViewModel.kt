@@ -12,8 +12,8 @@ class NewsViewModel : ViewModel() {
     val liveData: MutableLiveData<List<Reddit>> = MutableLiveData()
     private val repository = InstanceProvider.getRepository()
 
-    fun loadList() = viewModelScope.launch {
-        val result = repository.loadTopList()
+    fun getListRedditVM() = viewModelScope.launch {
+        val result = repository.getListRedditRepository()
         liveData.postValue(result)
     }
 }

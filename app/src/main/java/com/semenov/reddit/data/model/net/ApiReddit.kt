@@ -17,6 +17,7 @@ data class ApiRedditChildren(
 )
 
 data class ApiReddit(
+    @field:Json(name = "id") val id: String? = null,
     @field:Json(name = "subreddit") val subreddit: String? = null,
     @field:Json(name = "title") val title: String? = null,
     @field:Json(name = "thumbnail") val thumbnail: String? = null,
@@ -30,6 +31,7 @@ data class ApiReddit(
 fun ApiRedditPage?.toDomainModel(): List<Reddit>  {
     return this?.children?.map {
         Reddit(
+            id = it.data?.id ?: "",
             subreddit = it.data?.subreddit ?: "",
             title = it.data?.title ?: "",
             thumbnail = it.data?.thumbnail ?: "",
@@ -43,12 +45,13 @@ fun ApiRedditPage?.toDomainModel(): List<Reddit>  {
 }
 
 fun ApiReddit.toDomainModel() = Reddit(
-            subreddit = subreddit ?: "",
-            title = title ?: "",
-            thumbnail = thumbnail ?: "",
-            author = author ?: "",
-            url = url ?: "",
-            num_comments = num_comments ?: 0,
-            created = created ?: 0,
-            ups = ups ?: 0,
-        )
+    id = id ?: "",
+    subreddit = subreddit ?: "",
+    title = title ?: "",
+    thumbnail = thumbnail ?: "",
+    author = author ?: "",
+    url = url ?: "",
+    num_comments = num_comments ?: 0,
+    created = created ?: 0,
+    ups = ups ?: 0,
+)

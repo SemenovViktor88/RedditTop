@@ -6,5 +6,5 @@ import com.semenov.reddit.data.model.db.EntityReddit
 
 @Database(entities = [EntityReddit::class], version = 1)
 abstract class RedditDatabase: RoomDatabase() {
-    abstract fun newsDao(): Dao
+    abstract fun redditDao(): Dao
 }

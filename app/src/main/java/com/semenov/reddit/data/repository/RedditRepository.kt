@@ -9,15 +9,15 @@ import com.semenov.reddit.data.database.RedditDatabase as LocalDataSource
 import kotlinx.coroutines.*
 
 class RedditRepository(
-    private val local: LocalDataSource,
     private val remote: RemoteDataSource,
+    private val local: LocalDataSource,
 ) {
     private lateinit var listReddit: List<Reddit>
     private val myLifeData: MutableLiveData<List<Reddit>> = MutableLiveData()
 
-    suspend fun loadTopList(): List<Reddit> {
+    suspend fun getListRedditRepository(): List<Reddit> {
         withContext(Dispatchers.IO) {
-            listReddit = remote.getTopList()?.data.toDomainModel()
+            listReddit = remote.getListApiReddit()?.data.toDomainModel()
             myLifeData.postValue(listReddit)
         }
         return listReddit
@@ -25,6 +25,6 @@ class RedditRepository(
 
     suspend fun isSaved(reddit: Reddit) {
         val result = reddit.toDatabaseModel()
-        local.newsDao().insertNews(result)
+        local.redditDao().insertReddit(result)
     }
 }
