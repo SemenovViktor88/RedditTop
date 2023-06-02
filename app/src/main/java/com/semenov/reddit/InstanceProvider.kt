@@ -5,14 +5,14 @@ import androidx.room.Room
 import com.semenov.reddit.data.database.RedditDatabase
 import com.semenov.reddit.data.network.RedditApi
 import com.semenov.reddit.data.network.RetrofitHelper
-import com.semenov.reddit.data.repository.RedditRepository
+import com.semenov.reddit.data.repository.RedditRepositoryImpl
 
 object InstanceProvider {
 	private const val BASE_URL = "https://www.reddit.com/"
-	val retrofitService: RedditApi = RetrofitHelper.getClient(BASE_URL)
+	private val retrofitService: RedditApi = RetrofitHelper.getClient(BASE_URL)
 		.create(RedditApi::class.java)
 
-	private var repository: RedditRepository? = null
+	private var repository: RedditRepositoryImpl? = null
 	private lateinit var database: RedditDatabase
 
 	fun init(context: Context) {
@@ -21,9 +21,9 @@ object InstanceProvider {
 			.build()
 	}
 
-	fun getRepository(): RedditRepository {
-		synchronized(RedditRepository::class.java) {
-			return repository ?: RedditRepository(retrofitService, database)
+	fun getRepository(): RedditRepositoryImpl {
+		synchronized(RedditRepositoryImpl::class.java) {
+			return repository ?: RedditRepositoryImpl(retrofitService, database)
 		}
 	}
 }
