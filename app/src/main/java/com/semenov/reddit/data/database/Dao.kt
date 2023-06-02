@@ -8,7 +8,7 @@ import com.semenov.reddit.data.model.db.EntityReddit
 interface Dao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertReddit(entityReddit: EntityReddit)
+    fun insertReddit(entityReddit: EntityReddit)
 
     @Query("SELECT * FROM SavedReddit")
     suspend fun getAllReddit(): List<EntityReddit>

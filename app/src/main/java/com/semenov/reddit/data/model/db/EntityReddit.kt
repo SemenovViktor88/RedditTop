@@ -34,3 +34,18 @@ fun List<EntityReddit>.toDomainModel(): List<Reddit> {
         )
     }
 }
+
+fun EntityReddit.toDomainModel(): Reddit {
+    return Reddit(
+            id = id,
+            subreddit = subreddit,
+            title = title,
+            thumbnail = thumbnail,
+            author = author,
+            url = url,
+            num_comments = num_comments,
+            created = created,
+            ups = ups
+        )
+
+}

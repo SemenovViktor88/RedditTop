@@ -1,7 +1,6 @@
 package com.semenov.reddit.data.repository
 
-import androidx.lifecycle.MutableLiveData
-import com.semenov.reddit.data.model.db.EntityReddit
+import com.semenov.reddit.data.model.db.toDomainModel
 import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.data.model.domain.toDatabaseModel
 import com.semenov.reddit.data.model.net.toDomainModel
@@ -15,34 +14,24 @@ class RedditRepositoryImpl(
 ) : RedditRepository {
 
     private lateinit var listReddit: List<Reddit>
-    private val myLifeData: MutableLiveData<List<Reddit>> = MutableLiveData()
 
     override suspend fun getListRedditRepository(): List<Reddit> {
         withContext(Dispatchers.IO) {
             listReddit = remote.getListApiReddit()?.data.toDomainModel()
-            myLifeData.postValue(listReddit)
         }
         return listReddit
     }
 
     override suspend fun saveRedditInDB(reddit: Reddit) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getAllRedditDB(): List<EntityReddit> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getRedditDB(id: String): EntityReddit {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun deleteRedditDB(id: String) {
-        TODO("Not yet implemented")
-    }
-
-    suspend fun isSaved(reddit: Reddit) {
         val result = reddit.toDatabaseModel()
         local.redditDao().insertReddit(result)
+    }
+
+    override suspend fun getAllRedditDB() = local.redditDao().getAllReddit().toDomainModel()
+
+    override suspend fun getRedditDB(id: String) = local.redditDao().getReddit(id).toDomainModel()
+
+    override suspend fun deleteRedditDB(id: String) {
+        local.redditDao().deleteReddit(id)
     }
 }

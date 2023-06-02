@@ -7,7 +7,7 @@ interface RedditRepository {
 
     suspend fun getListRedditRepository(): List<Reddit>
     suspend fun saveRedditInDB(reddit: Reddit)
-    suspend fun getAllRedditDB(): List<EntityReddit>
-    suspend fun getRedditDB(id: String): EntityReddit
+    suspend fun getAllRedditDB(): List<Reddit>
+    suspend fun getRedditDB(id: String): Reddit
     suspend fun deleteRedditDB(id: String)
 }
