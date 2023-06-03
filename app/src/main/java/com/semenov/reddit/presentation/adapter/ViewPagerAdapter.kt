@@ -1,4 +1,4 @@
-package com.semenov.reddit.presentation.main
+package com.semenov.reddit.presentation.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

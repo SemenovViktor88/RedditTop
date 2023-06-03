@@ -6,5 +6,5 @@ import com.semenov.reddit.databinding.ItemLayoutBinding
 interface ItemClickListener {
     fun onItemClicked()
 
-    fun onSavedClicked(reddit: Reddit, binding: ItemLayoutBinding)
+    fun onSaveDeleteClicked(reddit: Reddit, binding: ItemLayoutBinding)
 }

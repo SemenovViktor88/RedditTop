@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.semenov.reddit.R
 import com.semenov.reddit.databinding.FragmentMainBinding
+import com.semenov.reddit.presentation.adapter.ViewPagerAdapter
 import com.semenov.reddit.presentation.news.NewsFragment
 import com.semenov.reddit.presentation.save.SaveFragment
 

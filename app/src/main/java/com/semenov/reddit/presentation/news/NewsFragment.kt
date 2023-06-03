@@ -12,6 +12,7 @@ import com.semenov.reddit.R
 import com.semenov.reddit.databinding.FragmentNewsBinding
 import com.semenov.reddit.databinding.ItemLayoutBinding
 import com.semenov.reddit.presentation.ItemClickListener
+import com.semenov.reddit.presentation.adapter.RecyclerViewAdapter
 import com.semenov.reddit.presentation.info.InfoFragment
 import kotlinx.coroutines.launch
 
@@ -19,7 +20,7 @@ class NewsFragment : Fragment(), ItemClickListener {
 
     private lateinit var binding: FragmentNewsBinding
     private lateinit var viewModel: NewsViewModel
-    private var adapter = RcAdapterNews(this)
+    private var adapter = RecyclerViewAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +39,7 @@ class NewsFragment : Fragment(), ItemClickListener {
         }
     }
 
-    override fun onSavedClicked(reddit: Reddit, binding: ItemLayoutBinding) {
+    override fun onSaveDeleteClicked(reddit: Reddit, binding: ItemLayoutBinding) {
 //        binding.floatingActionButton.setColorFilter(R.color.error)
         lifecycleScope.launch { viewModel.saveRedditDataBase(reddit) }
 

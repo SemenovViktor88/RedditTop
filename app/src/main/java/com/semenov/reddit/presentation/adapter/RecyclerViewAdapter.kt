@@ -1,4 +1,4 @@
-package com.semenov.reddit.presentation.save
+package com.semenov.reddit.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,7 @@ import com.semenov.reddit.databinding.ItemLayoutBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.squareup.picasso.Picasso
 
-class RcAdapterSave(private val listener: ItemClickListener): RecyclerView.Adapter<RcAdapterSave.MyViewHolder>() {
+class RecyclerViewAdapter(private val listener: ItemClickListener): RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
 
     private val api= mutableListOf<Reddit>()
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -21,7 +21,7 @@ class RcAdapterSave(private val listener: ItemClickListener): RecyclerView.Adapt
             numComments.text = listItem.num_comments.toString()
             Picasso.get().load(listItem.thumbnail).into(image)
             constrainlayout.setOnClickListener { listener.onItemClicked() }
-            floatingActionButton.setOnClickListener { listener.onSavedClicked(listItem, binding) }
+            floatingActionButton.setOnClickListener { listener.onSaveDeleteClicked(listItem, binding) }
         }
     }
 

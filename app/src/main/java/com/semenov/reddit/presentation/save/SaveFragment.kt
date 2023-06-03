@@ -8,23 +8,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.semenov.reddit.R
-import com.semenov.reddit.data.model.db.EntityReddit
-import com.semenov.reddit.data.model.db.toDomainModel
 import com.semenov.reddit.data.model.domain.Reddit
-import com.semenov.reddit.databinding.FragmentNewsBinding
 import com.semenov.reddit.databinding.FragmentSaveBinding
 import com.semenov.reddit.databinding.ItemLayoutBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.semenov.reddit.presentation.info.InfoFragment
-import com.semenov.reddit.presentation.news.NewsViewModel
-import com.semenov.reddit.presentation.news.RcAdapterNews
+import com.semenov.reddit.presentation.adapter.RecyclerViewAdapter
 import kotlinx.coroutines.launch
 
 class SaveFragment : Fragment(), ItemClickListener {
 
 	private lateinit var binding: FragmentSaveBinding
 	private lateinit var viewModel: SaveViewModel
-	private var adapter = RcAdapterSave(this)
+	private var adapter = RecyclerViewAdapter(this)
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -43,7 +39,7 @@ class SaveFragment : Fragment(), ItemClickListener {
 		}
 	}
 
-	override fun onSavedClicked(reddit: Reddit, binding: ItemLayoutBinding) {
+	override fun onSaveDeleteClicked(reddit: Reddit, binding: ItemLayoutBinding) {
 //        binding.floatingActionButton.setColorFilter(R.color.error)
 		lifecycleScope.launch { viewModel.deleteRedditDataBase(reddit) }
 	}
@@ -52,7 +48,7 @@ class SaveFragment : Fragment(), ItemClickListener {
 		viewModel = ViewModelProvider(this)[SaveViewModel::class.java]
 		binding.rcViewSaveFragment.adapter = adapter
 		viewModel.getListEntityRedditVM()
-		viewModel.listEntityRedditliveData.observe(viewLifecycleOwner) {
+		viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
 			getAllMovieList(it)
 		}
 	}

@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 class NewsViewModel : ViewModel() {
 
     val listRedditLiveData: MutableLiveData<List<Reddit>> = MutableLiveData()
-    val repository = InstanceProvider.getRepository()
+    private val repository = InstanceProvider.getRepository()
 
     fun getListRedditVM() {
         viewModelScope.launch {
