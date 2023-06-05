@@ -54,6 +54,6 @@ class NewsFragment : Fragment(), ItemClickListener {
         }
     }
     private fun getAllMovieList(list: List<Reddit>) {
-        adapter.onNew(list)
+        adapter.newListReddit(list)
     }
 }

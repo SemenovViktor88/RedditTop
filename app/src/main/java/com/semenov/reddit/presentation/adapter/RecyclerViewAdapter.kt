@@ -1,5 +1,6 @@
 package com.semenov.reddit.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +11,25 @@ import com.semenov.reddit.databinding.ItemLayoutBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.squareup.picasso.Picasso
 
-class RecyclerViewAdapter(private val listener: ItemClickListener): RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
+class RecyclerViewAdapter(private val listener: ItemClickListener) :
+    RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
 
-    private val api= mutableListOf<Reddit>()
+    private val listReddit = mutableListOf<Reddit>()
+
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemLayoutBinding.bind(itemView)
-        fun bind(listItem: Reddit,) = with(binding) {
+        fun bind(listItem: Reddit) = with(binding) {
             name.text = listItem.author
             title.text = listItem.title
             numComments.text = listItem.num_comments.toString()
             Picasso.get().load(listItem.thumbnail).into(image)
             constrainlayout.setOnClickListener { listener.onItemClicked() }
-            floatingActionButton.setOnClickListener { listener.onSaveDeleteClicked(listItem, binding) }
+            floatingActionButton.setOnClickListener {
+                listener.onSaveDeleteClicked(
+                    listItem,
+                    binding
+                )
+            }
         }
     }
 
@@ -30,15 +38,20 @@ class RecyclerViewAdapter(private val listener: ItemClickListener): RecyclerView
         return MyViewHolder(view)
     }
 
-    override fun getItemCount() = api.size
+    override fun getItemCount() = listReddit.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val listItem = api[position]
+        val listItem = listReddit[position]
         holder.bind(listItem)
     }
 
-    fun onNew(list : List<Reddit>){
-        api.addAll(list)
+    @SuppressLint("NotifyDataSetChanged")
+    fun newListReddit(list: List<Reddit>) {
+        listReddit.addAll(list)
         notifyDataSetChanged()
+    }
+
+    fun removeItem(reddit: Reddit){
+        listReddit.remove(reddit)
     }
 }

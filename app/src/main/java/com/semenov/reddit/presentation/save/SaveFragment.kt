@@ -1,5 +1,6 @@
 package com.semenov.reddit.presentation.save
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +29,12 @@ class SaveFragment : Fragment(), ItemClickListener {
 		savedInstanceState: Bundle?
 	): View {
 		binding = FragmentSaveBinding.inflate(inflater, container, false)
+		viewModel = ViewModelProvider(this)[SaveViewModel::class.java]
 		init()
+		viewModel.getListEntityRedditVM()
+		viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
+			getAllMovieList(it)
+		}
 		return binding.root
 	}
 
@@ -41,18 +47,22 @@ class SaveFragment : Fragment(), ItemClickListener {
 
 	override fun onSaveDeleteClicked(reddit: Reddit, binding: ItemLayoutBinding) {
 //        binding.floatingActionButton.setColorFilter(R.color.error)
-		lifecycleScope.launch { viewModel.deleteRedditDataBase(reddit) }
+		adapter.removeItem(reddit)
+		val job = lifecycleScope.launch { viewModel.deleteRedditDataBase(reddit) }
+		if (job.isCompleted){
+			viewModel.getListEntityRedditVM()
+			viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
+				adapter.notifyItemRemoved(it.indexOf(reddit))
+				adapter.notifyItemRangeChanged(it.indexOf(reddit), it.size)
+				adapter.notifyDataSetChanged()
+			}
+		}
 	}
 
 	private fun init() {
-		viewModel = ViewModelProvider(this)[SaveViewModel::class.java]
 		binding.rcViewSaveFragment.adapter = adapter
-		viewModel.getListEntityRedditVM()
-		viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
-			getAllMovieList(it)
-		}
 	}
 	private fun getAllMovieList(list: List<Reddit>) {
-		adapter.onNew(list)
+		adapter.newListReddit(list)
 	}
 }
