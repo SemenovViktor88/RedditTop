@@ -1,6 +1,5 @@
 package com.semenov.reddit.presentation.save
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,13 +14,16 @@ import com.semenov.reddit.databinding.ItemLayoutBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.semenov.reddit.presentation.info.InfoFragment
 import com.semenov.reddit.presentation.adapter.RecyclerViewAdapter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 
 class SaveFragment : Fragment(), ItemClickListener {
 
 	private lateinit var binding: FragmentSaveBinding
 	private lateinit var viewModel: SaveViewModel
 	private var adapter = RecyclerViewAdapter(this)
+	private lateinit var listReddit : List<Reddit>
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -31,10 +33,6 @@ class SaveFragment : Fragment(), ItemClickListener {
 		binding = FragmentSaveBinding.inflate(inflater, container, false)
 		viewModel = ViewModelProvider(this)[SaveViewModel::class.java]
 		init()
-		viewModel.getListEntityRedditVM()
-		viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
-			getAllMovieList(it)
-		}
 		return binding.root
 	}
 
@@ -48,19 +46,21 @@ class SaveFragment : Fragment(), ItemClickListener {
 	override fun onSaveDeleteClicked(reddit: Reddit, binding: ItemLayoutBinding) {
 //        binding.floatingActionButton.setColorFilter(R.color.error)
 		adapter.removeItem(reddit)
-		val job = lifecycleScope.launch { viewModel.deleteRedditDataBase(reddit) }
+		val job = lifecycleScope.launch(Dispatchers.IO) { viewModel.deleteRedditDataBase(reddit) }
 		if (job.isCompleted){
-			viewModel.getListEntityRedditVM()
-			viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
-				adapter.notifyItemRemoved(it.indexOf(reddit))
-				adapter.notifyItemRangeChanged(it.indexOf(reddit), it.size)
+				adapter.notifyItemRemoved(listReddit.indexOf(reddit))
+				adapter.notifyItemRangeChanged(listReddit.indexOf(reddit), listReddit.size)
 				adapter.notifyDataSetChanged()
-			}
 		}
 	}
 
 	private fun init() {
 		binding.rcViewSaveFragment.adapter = adapter
+		viewModel.getListEntityRedditVM()
+		viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
+			listReddit = it
+			getAllMovieList(listReddit)
+		}
 	}
 	private fun getAllMovieList(list: List<Reddit>) {
 		adapter.newListReddit(list)
