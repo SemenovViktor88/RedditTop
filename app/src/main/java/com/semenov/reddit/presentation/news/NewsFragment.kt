@@ -28,6 +28,8 @@ class NewsFragment : Fragment(), ItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
+        binding.rcViewNewsFragment.adapter = adapter
         init()
         return binding.root
     }
@@ -42,18 +44,12 @@ class NewsFragment : Fragment(), ItemClickListener {
     override fun onSaveDeleteClicked(reddit: Reddit, binding: ItemLayoutBinding) {
 //        binding.floatingActionButton.setColorFilter(R.color.error)
         lifecycleScope.launch { viewModel.saveRedditDataBase(reddit) }
-
     }
 
     private fun init() {
-        viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
-        binding.rcViewNewsFragment.adapter = adapter
         viewModel.getListRedditVM()
         viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
-            getAllMovieList(it)
+            adapter.newListReddit(it)
         }
-    }
-    private fun getAllMovieList(list: List<Reddit>) {
-        adapter.newListReddit(list)
     }
 }

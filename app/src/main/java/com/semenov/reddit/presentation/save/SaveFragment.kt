@@ -23,17 +23,23 @@ class SaveFragment : Fragment(), ItemClickListener {
 	private lateinit var binding: FragmentSaveBinding
 	private lateinit var viewModel: SaveViewModel
 	private var adapter = RecyclerViewAdapter(this)
-	private lateinit var listReddit : List<Reddit>
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
+
 		binding = FragmentSaveBinding.inflate(inflater, container, false)
 		viewModel = ViewModelProvider(this)[SaveViewModel::class.java]
+		binding.rcViewSaveFragment.adapter = adapter
 		init()
 		return binding.root
+	}
+
+	override fun onResume() {
+		super.onResume()
+		init()
 	}
 
 	override fun onItemClicked() {
@@ -46,23 +52,14 @@ class SaveFragment : Fragment(), ItemClickListener {
 	override fun onSaveDeleteClicked(reddit: Reddit, binding: ItemLayoutBinding) {
 //        binding.floatingActionButton.setColorFilter(R.color.error)
 		adapter.removeItem(reddit)
-		val job = lifecycleScope.launch(Dispatchers.IO) { viewModel.deleteRedditDataBase(reddit) }
-		if (job.isCompleted){
-				adapter.notifyItemRemoved(listReddit.indexOf(reddit))
-				adapter.notifyItemRangeChanged(listReddit.indexOf(reddit), listReddit.size)
-				adapter.notifyDataSetChanged()
-		}
+		lifecycleScope.launch(Dispatchers.IO) { viewModel.deleteRedditDataBase(reddit) }
+
 	}
 
 	private fun init() {
-		binding.rcViewSaveFragment.adapter = adapter
 		viewModel.getListEntityRedditVM()
 		viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
-			listReddit = it
-			getAllMovieList(listReddit)
+			adapter.newListReddit(it)
 		}
-	}
-	private fun getAllMovieList(list: List<Reddit>) {
-		adapter.newListReddit(list)
 	}
 }
