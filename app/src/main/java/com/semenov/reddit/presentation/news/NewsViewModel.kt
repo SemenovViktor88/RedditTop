@@ -16,7 +16,9 @@ class NewsViewModel : ViewModel() {
 
     fun getListRedditVM() {
         viewModelScope.launch {
-            val result = repository.getListRedditRepository()
+            val resultApi = repository.getListRedditRepository()
+            val resultDB = repository.getAllRedditDB()
+            val result = resultApi
             listRedditLiveData.postValue(result)
         }
     }
