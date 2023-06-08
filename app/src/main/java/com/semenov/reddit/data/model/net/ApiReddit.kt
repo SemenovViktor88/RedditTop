@@ -40,6 +40,7 @@ fun ApiRedditPage?.toDomainModel(): List<Reddit>  {
             num_comments = it.data?.num_comments ?: 0,
             created = it.data?.created ?: 0,
             ups = it.data?.ups ?: 0,
+            saved = false,
         )
     }.orEmpty()
 }
@@ -54,4 +55,5 @@ fun ApiReddit.toDomainModel() = Reddit(
     num_comments = num_comments ?: 0,
     created = created ?: 0,
     ups = ups ?: 0,
+    saved = false,
 )

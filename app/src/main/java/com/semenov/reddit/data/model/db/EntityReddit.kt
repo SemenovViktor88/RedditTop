@@ -30,7 +30,8 @@ fun List<EntityReddit>.toDomainModel(): List<Reddit> {
             url = it.url,
             num_comments = it.num_comments,
             created = it.created,
-            ups = it.ups
+            ups = it.ups,
+            saved = true
         )
     }
 }
@@ -45,7 +46,7 @@ fun EntityReddit.toDomainModel(): Reddit {
             url = url,
             num_comments = num_comments,
             created = created,
-            ups = ups
+            ups = ups,
+            saved = true
         )
-
 }

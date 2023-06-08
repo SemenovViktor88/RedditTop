@@ -41,8 +41,7 @@ class NewsFragment : Fragment(), ItemClickListener {
         }
     }
 
-    override fun onSaveDeleteClicked(reddit: Reddit, binding: ItemLayoutBinding) {
-//        binding.floatingActionButton.setColorFilter(R.color.error)
+    override fun onSaveDeleteClicked(reddit: Reddit) {
         lifecycleScope.launch { viewModel.saveRedditDataBase(reddit) }
     }
 

@@ -21,6 +21,7 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
         val listItem = listReddit[position]
         holder.bind(listItem)
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
         return MyViewHolder(view)
@@ -35,7 +36,7 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
             Picasso.get().load(listItem.thumbnail).into(image)
             constrainlayout.setOnClickListener { listener.onItemClicked() }
             floatingActionButton.setOnClickListener {
-                listener.onSaveDeleteClicked(listItem, binding)
+                listener.onSaveDeleteClicked(listItem)
             }
         }
     }
@@ -46,7 +47,7 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
         notifyDataSetChanged()
     }
 
-    fun removeItem(reddit: Reddit){
+    fun removeItem(reddit: Reddit) {
         listReddit.remove(reddit)
         notifyDataSetChanged()
     }

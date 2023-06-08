@@ -12,6 +12,7 @@ data class Reddit(
     val num_comments: Int,
     val created: Long,
     val ups: Int,
+    var saved: Boolean
 )
 
 fun Reddit.toDatabaseModel(): EntityReddit {

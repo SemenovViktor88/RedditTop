@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constrainlayout"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_margin="2dp">
 
 
@@ -83,11 +83,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_saved"
             app:backgroundTint="@color/colorAccentHint"
-            app:fabSize="mini"
-            app:tint="@color/colorAccent"
             app:elevation="@dimen/card_elevation"
+            app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="@id/constrainlayout"
-            app:layout_constraintEnd_toEndOf="@id/constrainlayout" />
+            app:layout_constraintEnd_toEndOf="@id/constrainlayout"
+            app:tint="@color/colorAccent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
