@@ -1,5 +1,6 @@
 package com.semenov.reddit.presentation.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,10 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
             numComments.text = listItem.num_comments.toString()
             Picasso.get().load(listItem.thumbnail).into(image)
             constrainlayout.setOnClickListener { listener.onItemClicked() }
+
+            if (listItem.saved) floatingActionButton.setColorFilter(Color.argb(255, 255, 120, 0))
+            else floatingActionButton.setColorFilter(Color.argb(255, 255, 255, 255))
+
             floatingActionButton.setOnClickListener {
                 listener.onSaveDeleteClicked(listItem)
             }
