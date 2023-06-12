@@ -34,4 +34,8 @@ class NewsViewModel : ViewModel() {
     suspend fun saveRedditDataBase(reddit: Reddit) {
         withContext(Dispatchers.IO) { repository.saveRedditInDB(reddit) }
     }
+
+    suspend fun removeRedditDataBase (reddit: Reddit) {
+        withContext(Dispatchers.IO) { repository.deleteRedditDB(reddit.id) }
+    }
 }

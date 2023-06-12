@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.R
 import com.semenov.reddit.databinding.FragmentNewsBinding
-import com.semenov.reddit.databinding.ItemLayoutBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.semenov.reddit.presentation.adapter.RecyclerViewAdapter
 import com.semenov.reddit.presentation.info.InfoFragment
@@ -34,6 +33,11 @@ class NewsFragment : Fragment(), ItemClickListener {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        init()
+    }
+
     override fun onItemClicked() {
         if (isAdded) {
             parentFragmentManager.beginTransaction().addToBackStack(null)
@@ -42,7 +46,11 @@ class NewsFragment : Fragment(), ItemClickListener {
     }
 
     override fun onSaveDeleteClicked(reddit: Reddit) {
-        lifecycleScope.launch { viewModel.saveRedditDataBase(reddit) }
+        adapter.updateItem(reddit)
+        when(reddit.saved){
+            false -> lifecycleScope.launch { viewModel.removeRedditDataBase(reddit) }
+            true -> lifecycleScope.launch { viewModel.saveRedditDataBase(reddit) }
+        }
     }
 
     private fun init() {
