@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.R
@@ -31,28 +32,28 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemLayoutBinding.bind(itemView)
         fun bind(listItem: Reddit) = with(binding) {
-            name.text = listItem.author
-            title.text = listItem.title
+            author.text = listItem.author
+            subredit.text = listItem.subreddit
+            created.text = listItem.created.toString()
             numComments.text = listItem.num_comments.toString()
-            Picasso.get().load(listItem.thumbnail).into(image)
-            constrainlayout.setOnClickListener { listener.onItemClicked() }
+            rating.text = listItem.ups.toString()
+
+            if (listItem.thumbnail.isEmpty()) Picasso.get().load(R.drawable.photo).into(image)
+            else Picasso.get().load(listItem.thumbnail).into(image)
 
             if (listItem.saved) floatingActionButton.setColorFilter(Color.argb(255, 255, 120, 0))
             else floatingActionButton.setColorFilter(Color.argb(255, 255, 255, 255))
 
+            constrainlayout.setOnClickListener { listener.onItemClicked() }
             floatingActionButton.setOnClickListener {
                 listener.onSaveDeleteClicked(listItem)
             }
         }
     }
 
-    fun update() {
-        notifyDataSetChanged()
-    }
-
-    fun updateItem (reddit: Reddit){
+    fun updateItem(reddit: Reddit) {
         val list = listReddit.map {
-            if (it.id == reddit.id){
+            if (it.id == reddit.id) {
                 when (it.saved) {
                     true -> it.saved = false
                     false -> it.saved = true
@@ -63,6 +64,7 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
         listReddit = list.toMutableList()
         notifyDataSetChanged()
     }
+
     fun newListReddit(list: List<Reddit>) {
         listReddit = list.toMutableList()
         notifyDataSetChanged()

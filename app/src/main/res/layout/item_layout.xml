@@ -17,77 +17,117 @@
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:background="@color/primaryLight"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@drawable/photo"
+            app:layout_constraintBottom_toTopOf="@+id/title_numcomments"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subredit"
+            app:srcCompat="@drawable/photo"
+            tools:srcCompat="@drawable/photo" />
 
         <TextView
             android:id="@+id/title_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Author: "
+            android:layout_marginStart="10dp"
+            android:text="Posted by"
             android:textSize="13sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/subredit"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/subredit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="name"
+            android:layout_marginStart="10dp"
+            android:text="Subredit"
             android:textSize="13sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/title_name" />
-
+            app:layout_constraintStart_toStartOf="@id/constrainlayout"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="title title title title title "
-            android:textSize="18sp"
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="author"
+            android:textSize="13sp"
             android:textStyle="bold"
-            android:layout_marginEnd="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/title_name"
-            app:layout_constraintEnd_toStartOf="@+id/image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toEndOf="@+id/title_name"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/created"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="X"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/author"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/hoursago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="hours ago"
+            android:textSize="13sp"
+            app:layout_constraintStart_toEndOf="@+id/created"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/title_numcomments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="Comments: "
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/numComments" />
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/title_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Rating: "
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/numComments" />
 
         <TextView
             android:id="@+id/numComments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="comments"
+            android:text="1234"
             android:textSize="13sp"
             android:textStyle="bold"
-            android:layout_marginEnd="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/image" />
+            app:layout_constraintStart_toEndOf="@+id/title_numcomments" />
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1234"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/title_rating" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_saved"
-            app:backgroundTint="@color/colorAccentHint"
-            app:elevation="@dimen/card_elevation"
             app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="@id/constrainlayout"
-            app:layout_constraintEnd_toEndOf="@id/constrainlayout"
-            app:tint="@color/colorAccent" />
+            app:layout_constraintEnd_toEndOf="@id/constrainlayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
