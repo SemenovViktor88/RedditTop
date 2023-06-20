@@ -18,7 +18,7 @@ class NewsViewModel : ViewModel() {
         viewModelScope.launch {
             val resultApi = repository.getListRedditRepository()
             val resultDB = repository.getAllRedditDB()
-            val result = resultApi.map{
+            val result = resultApi.map {
                 var position = 0
                 while (position < resultDB.size) {
                     it.saved = it.id == resultDB[position].id
@@ -31,11 +31,11 @@ class NewsViewModel : ViewModel() {
         }
     }
 
-    suspend fun saveRedditDataBase(reddit: Reddit) {
+    suspend fun saveReddit(reddit: Reddit) {
         withContext(Dispatchers.IO) { repository.saveRedditInDB(reddit) }
     }
 
-    suspend fun removeRedditDataBase (reddit: Reddit) {
+    suspend fun removeReddit(reddit: Reddit) {
         withContext(Dispatchers.IO) { repository.deleteRedditDB(reddit.id) }
     }
 }

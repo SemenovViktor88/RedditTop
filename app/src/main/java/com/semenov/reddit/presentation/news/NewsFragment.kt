@@ -48,8 +48,8 @@ class NewsFragment : Fragment(), ItemClickListener {
     override fun onSaveDeleteClicked(reddit: Reddit) {
         adapter.updateItem(reddit)
         when(reddit.saved){
-            false -> lifecycleScope.launch { viewModel.removeRedditDataBase(reddit) }
-            true -> lifecycleScope.launch { viewModel.saveRedditDataBase(reddit) }
+            false -> lifecycleScope.launch { viewModel.removeReddit(reddit) }
+            true -> lifecycleScope.launch { viewModel.saveReddit(reddit) }
         }
     }
 

@@ -1,6 +1,5 @@
 package com.semenov.reddit.data.repository
 
-import com.semenov.reddit.data.model.db.EntityReddit
 import com.semenov.reddit.data.model.domain.Reddit
 
 interface RedditRepository {

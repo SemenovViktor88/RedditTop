@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.R
@@ -34,9 +33,10 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
         fun bind(listItem: Reddit) = with(binding) {
             author.text = listItem.author
             subredit.text = listItem.subreddit
-            created.text = listItem.created.toString()
             numComments.text = listItem.num_comments.toString()
             rating.text = listItem.ups.toString()
+
+            created.text = listItem.created.toString()
 
             if (listItem.thumbnail.isEmpty()) Picasso.get().load(R.drawable.photo).into(image)
             else Picasso.get().load(listItem.thumbnail).into(image)

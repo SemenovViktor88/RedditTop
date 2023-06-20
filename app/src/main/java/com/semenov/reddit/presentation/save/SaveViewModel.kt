@@ -5,9 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.data.model.domain.Reddit
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SaveViewModel : ViewModel() {
 
@@ -21,8 +19,7 @@ class SaveViewModel : ViewModel() {
         }
     }
 
-    suspend fun deleteRedditDataBase(reddit: Reddit) {
-//        withContext(Dispatchers.IO)
-       viewModelScope.launch { repository.deleteRedditDB(reddit.id) }
+    suspend fun deleteReddit(reddit: Reddit) {
+        viewModelScope.launch { repository.deleteRedditDB(reddit.id) }
     }
 }
