@@ -22,7 +22,7 @@ object InstanceProvider {
     }
 
     fun getRepository(): RedditRepository {
-        synchronized(RedditRepository::class.java) {
+        synchronized(RedditRepositoryImpl::class.java) {
             return repository ?: RedditRepositoryImpl(retrofitService, database)
         }
     }

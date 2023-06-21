@@ -17,7 +17,9 @@ class RedditRepositoryImpl(
 
     override suspend fun getListRedditRepository(): List<Reddit> {
         withContext(Dispatchers.IO) {
-            listReddit = remote.getListApiReddit()?.data.toDomainModel()
+            val listApiReddit = remote.getListApiReddit()?.data
+            val listRedditDB = local.redditDao().getAllReddit()
+            listReddit = listApiReddit.toDomainModel(listRedditDB)
         }
         return listReddit
     }
