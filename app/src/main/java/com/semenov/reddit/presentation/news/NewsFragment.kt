@@ -33,11 +33,6 @@ class NewsFragment : Fragment(), ItemClickListener {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        init()
-    }
-
     override fun onItemClicked() {
         if (isAdded) {
             parentFragmentManager.beginTransaction().addToBackStack(null)
@@ -46,10 +41,9 @@ class NewsFragment : Fragment(), ItemClickListener {
     }
 
     override fun onSaveDeleteClicked(reddit: Reddit) {
-        adapter.updateItem(reddit)
         when(reddit.saved){
-            false -> lifecycleScope.launch { viewModel.removeReddit(reddit) }
-            true -> lifecycleScope.launch { viewModel.saveReddit(reddit) }
+            true ->  viewModel.removeReddit(reddit)
+            false -> viewModel.saveReddit(reddit)
         }
     }
 

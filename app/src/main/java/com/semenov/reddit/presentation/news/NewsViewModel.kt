@@ -1,5 +1,6 @@
 package com.semenov.reddit.presentation.news
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,21 +12,47 @@ import kotlinx.coroutines.withContext
 
 class NewsViewModel : ViewModel() {
 
-    val listRedditLiveData: MutableLiveData<List<Reddit>> = MutableLiveData()
+    val listRedditLiveData: LiveData<List<Reddit>>
+        get() = _listRedditLiveData
+    private val _listRedditLiveData: MutableLiveData<List<Reddit>> = MutableLiveData()
     private val repository = InstanceProvider.getRepository()
 
     fun getListRedditVM() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = repository.getListRedditRepository()
-            listRedditLiveData.postValue(result)
+            _listRedditLiveData.postValue(result)
         }
     }
 
-    suspend fun saveReddit(reddit: Reddit) {
-        withContext(Dispatchers.IO) { repository.saveRedditInDB(reddit) }
+    fun saveReddit(reddit: Reddit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveRedditInDB(reddit)
+            _listRedditLiveData.mutate { list ->
+                list?.map {
+                    when (reddit.id) {
+                        it.id -> reddit.copy(saved = true)
+                        else -> it
+                    }
+                }
+            }
+        }
     }
 
-    suspend fun removeReddit(reddit: Reddit) {
-        withContext(Dispatchers.IO) { repository.deleteRedditDB(reddit.id) }
+    fun removeReddit(reddit: Reddit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteRedditDB(reddit.id)
+            _listRedditLiveData.mutate { list ->
+                list?.map {
+                    when (reddit.id) {
+                        it.id -> reddit.copy(saved = false)
+                        else -> it
+                    }
+                }
+            }
+        }
     }
+}
+
+inline fun <reified T: Any?> MutableLiveData<T>.mutate(action: (T?) -> T?){
+    postValue(action(value))
 }

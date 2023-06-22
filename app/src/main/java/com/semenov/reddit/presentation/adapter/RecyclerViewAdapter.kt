@@ -51,27 +51,9 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
         }
     }
 
-    fun updateItem(reddit: Reddit) {
-        val list = listReddit.map {
-            if (it.id == reddit.id) {
-                when (it.saved) {
-                    true -> it.saved = false
-                    false -> it.saved = true
-                }
-            }
-            it
-        }
-        listReddit = list.toMutableList()
-        notifyDataSetChanged()
-    }
 
     fun newListReddit(list: List<Reddit>) {
         listReddit = list.toMutableList()
-        notifyDataSetChanged()
-    }
-
-    fun removeItem(reddit: Reddit) {
-        listReddit.remove(reddit)
         notifyDataSetChanged()
     }
 }

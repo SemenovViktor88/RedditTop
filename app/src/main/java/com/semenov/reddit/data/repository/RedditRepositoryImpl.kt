@@ -6,22 +6,16 @@ import com.semenov.reddit.data.model.domain.toDatabaseModel
 import com.semenov.reddit.data.model.net.toDomainModel
 import com.semenov.reddit.data.network.RedditApi as RemoteDataSource
 import com.semenov.reddit.data.database.RedditDatabase as LocalDataSource
-import kotlinx.coroutines.*
 
 class RedditRepositoryImpl(
     private val remote: RemoteDataSource,
     private val local: LocalDataSource
 ) : RedditRepository {
 
-    private lateinit var listReddit: List<Reddit>
-
     override suspend fun getListRedditRepository(): List<Reddit> {
-        withContext(Dispatchers.IO) {
-            val listApiReddit = remote.getListApiReddit()?.data
-            val listRedditDB = local.redditDao().getAllReddit()
-            listReddit = listApiReddit.toDomainModel(listRedditDB)
-        }
-        return listReddit
+        val listApiReddit = remote.getListApiReddit()?.data
+        val listRedditDB = local.redditDao().getAllReddit()
+        return listApiReddit.toDomainModel(listRedditDB)
     }
 
     override suspend fun saveRedditInDB(reddit: Reddit) {
