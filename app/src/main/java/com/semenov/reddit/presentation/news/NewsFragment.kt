@@ -6,14 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.R
 import com.semenov.reddit.databinding.FragmentNewsBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.semenov.reddit.presentation.adapter.RecyclerViewAdapter
 import com.semenov.reddit.presentation.info.InfoFragment
-import kotlinx.coroutines.launch
 
 class NewsFragment : Fragment(), ItemClickListener {
 

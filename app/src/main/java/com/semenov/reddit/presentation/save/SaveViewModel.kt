@@ -27,7 +27,7 @@ class SaveViewModel : ViewModel() {
         viewModelScope.launch {
             repository.deleteRedditDB(reddit.id)
             _listRedditLiveData.mutate { list ->
-                list?.toMutableList()?.apply { remove(reddit) }?.toList()
+                list?.toMutableList()?.apply { remove(reddit) }
             }
         }
     }
