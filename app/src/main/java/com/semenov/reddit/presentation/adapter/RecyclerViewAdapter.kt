@@ -51,7 +51,6 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
         }
     }
 
-
     fun newListReddit(list: List<Reddit>) {
         listReddit = list.toMutableList()
         notifyDataSetChanged()

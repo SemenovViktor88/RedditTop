@@ -23,7 +23,7 @@ class SaveViewModel : ViewModel() {
         }
     }
 
-    suspend fun deleteReddit(reddit: Reddit) {
+    fun deleteReddit(reddit: Reddit) {
         viewModelScope.launch {
             repository.deleteRedditDB(reddit.id)
             _listRedditLiveData.mutate { list ->

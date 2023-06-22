@@ -43,7 +43,7 @@ class SaveFragment : Fragment(), ItemClickListener {
     }
 
     override fun onSaveDeleteClicked(reddit: Reddit) {
-        lifecycleScope.launch(Dispatchers.IO) { viewModel.deleteReddit(reddit) }
+        viewModel.deleteReddit(reddit)
     }
 
     private fun init() {

@@ -5,28 +5,28 @@ import com.semenov.reddit.data.model.domain.Reddit
 import com.squareup.moshi.Json
 
 data class RootList(
-    @field:Json(name = "data") val data: ApiRedditPage? = null,
+    @field:Json(name = "data") val data: ApiRedditPage?,
 )
 
 data class ApiRedditPage(
-    @field:Json(name = "children") val children: List<ApiRedditChildren>? = null,
+    @field:Json(name = "children") val children: List<ApiRedditChildren>?,
     @field:Json(name = "after") val after: String? = null,
 )
 
 data class ApiRedditChildren(
-    @field:Json(name = "data") val data: ApiReddit? = null,
+    @field:Json(name = "data") val data: ApiReddit?,
 )
 
 data class ApiReddit(
-    @field:Json(name = "id") val id: String? = null,
-    @field:Json(name = "subreddit") val subreddit: String? = null,
-    @field:Json(name = "title") val title: String? = null,
-    @field:Json(name = "thumbnail") val thumbnail: String? = null,
-    @field:Json(name = "author") val author: String? = null,
-    @field:Json(name = "url") val url: String? = null,
-    @field:Json(name = "num_comments") val num_comments: Int? = null,
-    @field:Json(name = "created") val created: Long? = null,
-    @field:Json(name = "ups") val ups: Int? = null,
+    @field:Json(name = "id") val id: String?,
+    @field:Json(name = "subreddit") val subreddit: String?,
+    @field:Json(name = "title") val title: String?,
+    @field:Json(name = "thumbnail") val thumbnail: String?,
+    @field:Json(name = "author") val author: String?,
+    @field:Json(name = "url") val url: String?,
+    @field:Json(name = "num_comments") val num_comments: Int?,
+    @field:Json(name = "created") val created: Long?,
+    @field:Json(name = "ups") val ups: Int?,
     @field:Json(name = "saved") var saved: Boolean = false,
 )
 
