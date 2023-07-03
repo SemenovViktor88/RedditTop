@@ -12,6 +12,7 @@ import com.semenov.reddit.databinding.FragmentSaveBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.semenov.reddit.presentation.info.InfoFragment
 import com.semenov.reddit.presentation.adapter.RecyclerViewAdapter
+import kotlinx.coroutines.flow.onEach
 
 class SaveFragment : Fragment(), ItemClickListener {
 
@@ -27,6 +28,7 @@ class SaveFragment : Fragment(), ItemClickListener {
 
         binding = FragmentSaveBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[SaveViewModel::class.java]
+        viewModel.getListEntityRedditVM()
         binding.rcViewSaveFragment.adapter = adapter
         init()
         return binding.root
@@ -44,8 +46,8 @@ class SaveFragment : Fragment(), ItemClickListener {
     }
 
     private fun init() {
-        viewModel.getListEntityRedditVM()
-        viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
+//        adapter.newListReddit(viewModel.listRedditLiveData.value)
+        viewModel.listRedditLiveData.onEach {
             adapter.newListReddit(it)
         }
     }

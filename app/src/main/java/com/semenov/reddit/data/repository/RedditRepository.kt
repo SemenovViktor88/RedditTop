@@ -1,12 +1,13 @@
 package com.semenov.reddit.data.repository
 
 import com.semenov.reddit.data.model.domain.Reddit
+import kotlinx.coroutines.flow.Flow
 
 interface RedditRepository {
 
-    suspend fun getListRedditRepository(): List<Reddit>
+    fun getListRedditRepository(): Flow<List<Reddit>>
     suspend fun saveRedditInDB(reddit: Reddit)
-    suspend fun getAllRedditDB(): List<Reddit>
+    fun getAllRedditDB(): Flow<List<Reddit>>
     suspend fun getRedditDB(id: String): Reddit
     suspend fun deleteRedditDB(id: String)
 }

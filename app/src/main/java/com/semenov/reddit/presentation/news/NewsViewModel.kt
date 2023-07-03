@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.data.model.domain.Reddit
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -19,8 +20,10 @@ class NewsViewModel : ViewModel() {
 
     fun getListRedditVM() {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repository.getListRedditRepository()
-            _listRedditLiveData.postValue(result)
+             repository.getListRedditRepository().collect {
+                 _listRedditLiveData.postValue(it)
+            }
+
         }
     }
 
