@@ -17,7 +17,7 @@ class RedditRepositoryImpl(
     override fun getListRedditRepository(): Flow<List<Reddit>> = flow {
         val listApiReddit = remote.getListApiReddit()?.data
         val listRedditDB = local.redditDao().getAllReddit()
-        listApiReddit.toDomainModel(listRedditDB)
+        emit(listApiReddit.toDomainModel(listRedditDB))
     }
 
     override suspend fun saveRedditInDB(reddit: Reddit) {
@@ -26,7 +26,8 @@ class RedditRepositoryImpl(
     }
 
     override fun getAllRedditDB(): Flow<List<Reddit>> = flow {
-        local.redditDao().getAllReddit().toDomainModel()
+        val listReddit = local.redditDao().getAllReddit().toDomainModel()
+        emit(listReddit)
     }
 
     override suspend fun getRedditDB(id: String) = local.redditDao().getReddit(id).toDomainModel()

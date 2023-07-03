@@ -1,9 +1,6 @@
 package com.semenov.reddit.presentation.save
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.presentation.news.mutate
@@ -12,18 +9,14 @@ import kotlinx.coroutines.launch
 
 class SaveViewModel : ViewModel() {
 
+    private val repository = InstanceProvider.getRepository()
     val listRedditLiveData: StateFlow<List<Reddit>>
         get() = _listRedditLiveData
-    private val _listRedditLiveData: MutableStateFlow<List<Reddit>> = MutableStateFlow(emptyList())
-    private val repository = InstanceProvider.getRepository()
+    private val _listRedditLiveData: MutableStateFlow<List<Reddit>> = MutableStateFlow()
 
-    fun getListEntityRedditVM() {
-        viewModelScope.launch {
-            repository.getAllRedditDB().collect{
-            _listRedditLiveData.value = it
-            }
-        }
-    }
+
+    fun getListEntityRedditVM() = repository.getAllRedditDB().onEach{ _listRedditLiveData.emit(it) }.launchIn(viewModelScope)
+
 
 
     fun deleteReddit(reddit: Reddit) {
