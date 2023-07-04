@@ -28,7 +28,7 @@ class SaveFragment : Fragment(), ItemClickListener {
 
         binding = FragmentSaveBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[SaveViewModel::class.java]
-        viewModel.getListEntityRedditVM()
+
         binding.rcViewSaveFragment.adapter = adapter
         init()
         return binding.root
@@ -46,8 +46,9 @@ class SaveFragment : Fragment(), ItemClickListener {
     }
 
     private fun init() {
-//        adapter.newListReddit(viewModel.listRedditLiveData.value)
-        viewModel.listRedditLiveData.onEach {
+
+        viewModel.getListEntityRedditVM()
+        viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
             adapter.newListReddit(it)
         }
     }
