@@ -7,21 +7,23 @@ import androidx.lifecycle.viewModelScope
 import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.data.model.domain.Reddit
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class NewsViewModel : ViewModel() {
 
-    val listRedditLiveData: LiveData<List<Reddit>>
+    val listRedditLiveData: StateFlow<List<Reddit>>
         get() = _listRedditLiveData
-    private val _listRedditLiveData: MutableLiveData<List<Reddit>> = MutableLiveData()
+    private val _listRedditLiveData: MutableStateFlow<List<Reddit>> = MutableStateFlow(emptyList())
     private val repository = InstanceProvider.getRepository()
 
     fun getListRedditVM() {
         viewModelScope.launch(Dispatchers.IO) {
              repository.getListRedditRepository().collect {
-                 _listRedditLiveData.postValue(it)
+                 _listRedditLiveData.value = it
             }
 
         }
@@ -56,6 +58,6 @@ class NewsViewModel : ViewModel() {
     }
 }
 
-inline fun <reified T: Any?> MutableLiveData<T>.mutate(action: (T?) -> T?){
-    postValue(action(value))
+inline fun <reified T: Any?> MutableStateFlow<T>.mutate(action: (T?) -> T?){
+    action(value)
 }

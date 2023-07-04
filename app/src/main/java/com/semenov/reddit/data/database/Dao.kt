@@ -3,6 +3,7 @@ package com.semenov.reddit.data.database
 import androidx.room.*
 import androidx.room.Dao
 import com.semenov.reddit.data.model.db.EntityReddit
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface Dao {
@@ -11,7 +12,7 @@ interface Dao {
     fun insertReddit(entityReddit: EntityReddit)
 
     @Query("SELECT * FROM SavedReddit")
-    suspend fun getAllReddit(): List<EntityReddit>
+    fun getAllReddit(): Flow<List<EntityReddit>>
 
     @Query("SELECT * FROM SavedReddit WHERE id = :id")
     suspend fun getReddit(id: String): EntityReddit
