@@ -15,7 +15,6 @@ import com.semenov.reddit.databinding.FragmentSaveBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.semenov.reddit.presentation.info.InfoFragment
 import com.semenov.reddit.presentation.adapter.RecyclerViewAdapter
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class SaveFragment : Fragment(), ItemClickListener {
@@ -32,9 +31,7 @@ class SaveFragment : Fragment(), ItemClickListener {
 
         binding = FragmentSaveBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[SaveViewModel::class.java]
-
         binding.rcViewSaveFragment.adapter = adapter
-//        init()
         return binding.root
     }
 
@@ -42,8 +39,9 @@ class SaveFragment : Fragment(), ItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getListEntityRedditVM()
-                adapter.newListReddit(viewModel.listRedditLiveData.value)
+                viewModel.getListEntityRedditVM().collect {
+                    adapter.newListReddit(viewModel.listRedditLiveData.value)
+                }
             }
         }
     }
@@ -58,12 +56,4 @@ class SaveFragment : Fragment(), ItemClickListener {
     override fun onSaveDeleteClicked(reddit: Reddit) {
         viewModel.deleteReddit(reddit)
     }
-
-//    private fun init() {
-//
-//        viewModel.getListEntityRedditVM()
-//        viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
-//            adapter.newListReddit(it)
-//        }
-//    }
 }

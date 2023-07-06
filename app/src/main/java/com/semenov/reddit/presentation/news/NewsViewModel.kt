@@ -1,17 +1,15 @@
 package com.semenov.reddit.presentation.news
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.data.model.domain.Reddit
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class NewsViewModel : ViewModel() {
 
@@ -20,12 +18,10 @@ class NewsViewModel : ViewModel() {
     private val _listRedditLiveData: MutableStateFlow<List<Reddit>> = MutableStateFlow(emptyList())
     private val repository = InstanceProvider.getRepository()
 
-    fun getListRedditVM() {
-        viewModelScope.launch(Dispatchers.IO) {
-             repository.getListRedditRepository().collect {
-                 _listRedditLiveData.value = it
-            }
-
+    fun getListRedditVM(): Flow<List<Reddit>> = flow {
+        repository.getListRedditRepository().collect {
+            _listRedditLiveData.value = it
+            emit(it)
         }
     }
 
@@ -58,6 +54,6 @@ class NewsViewModel : ViewModel() {
     }
 }
 
-inline fun <reified T: Any?> MutableStateFlow<T>.mutate(action: (T?) -> T?){
+inline fun <reified T : Any?> MutableStateFlow<T>.mutate(action: (T?) -> T?) {
     action(value)
 }

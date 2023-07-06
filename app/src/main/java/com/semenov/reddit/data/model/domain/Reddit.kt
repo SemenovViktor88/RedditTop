@@ -4,7 +4,7 @@ import com.semenov.reddit.data.model.db.EntityReddit
 
 data class Reddit(
     val id: String,
-    var saved: Boolean,
+    val saved: Boolean,
     val subreddit: String,
     val title: String,
     val thumbnail: String,
@@ -13,7 +13,6 @@ data class Reddit(
     val num_comments: Int,
     val created: Long,
     val ups: Int,
-
 )
 
 fun Reddit.toDatabaseModel(): EntityReddit {

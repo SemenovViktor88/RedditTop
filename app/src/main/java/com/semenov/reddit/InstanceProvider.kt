@@ -11,7 +11,6 @@ import com.semenov.reddit.data.repository.RedditRepositoryImpl
 object InstanceProvider {
     private const val BASE_URL = "https://www.reddit.com/"
     private val retrofitService: RedditApi = RetrofitHelper.getClient(BASE_URL).create(RedditApi::class.java)
-
     private var repository: RedditRepository? = null
     private lateinit var database: RedditDatabase
 

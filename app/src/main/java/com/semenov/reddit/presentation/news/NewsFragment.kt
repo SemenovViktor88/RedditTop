@@ -31,7 +31,6 @@ class NewsFragment : Fragment(), ItemClickListener {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
         binding.rcViewNewsFragment.adapter = adapter
-//        init()
         return binding.root
     }
 
@@ -39,8 +38,9 @@ class NewsFragment : Fragment(), ItemClickListener {
         super.onViewCreated(view, savedInstanceState)
          viewLifecycleOwner.lifecycleScope.launch {
              repeatOnLifecycle(Lifecycle.State.STARTED) {
-                 viewModel.getListRedditVM()
-                 adapter.newListReddit(viewModel.listRedditLiveData.value)
+                 viewModel.getListRedditVM().collect{
+                     adapter.newListReddit(viewModel.listRedditLiveData.value)
+                 }
              }
          }
     }
@@ -58,11 +58,4 @@ class NewsFragment : Fragment(), ItemClickListener {
             false -> viewModel.saveReddit(reddit)
         }
     }
-
-//    private fun init() {
-//        viewModel.getListRedditVM()
-//        viewModel.listRedditLiveData.observe(viewLifecycleOwner) {
-//            adapter.newListReddit(it)
-//        }
-//    }
 }
