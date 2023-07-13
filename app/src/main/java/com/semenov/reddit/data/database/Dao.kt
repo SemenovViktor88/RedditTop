@@ -19,4 +19,7 @@ interface Dao {
 
     @Query("DELETE FROM SavedReddit WHERE id = :id")
     suspend fun deleteReddit(id: String)
+
+    @Query("DELETE FROM SavedReddit")
+    suspend fun deleteAll()
 }

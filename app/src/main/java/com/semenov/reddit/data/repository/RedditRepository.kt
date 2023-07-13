@@ -10,4 +10,5 @@ interface RedditRepository {
     fun getAllRedditDB(): Flow<List<EntityReddit>>
     suspend fun getRedditDB(id: String): Reddit
     suspend fun deleteRedditDB(id: String)
+    suspend fun deleteAllDB()
 }

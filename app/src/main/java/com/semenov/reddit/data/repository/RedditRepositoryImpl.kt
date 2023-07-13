@@ -44,4 +44,8 @@ class RedditRepositoryImpl(
     override suspend fun deleteRedditDB(id: String) {
         local.redditDao().deleteReddit(id)
     }
+
+    override suspend fun deleteAllDB() {
+        local.redditDao().deleteAll()
+    }
 }

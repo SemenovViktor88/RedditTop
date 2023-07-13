@@ -1,17 +1,29 @@
 package com.semenov.reddit.presentation.main
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.R
 import com.semenov.reddit.databinding.FragmentMainBinding
 import com.semenov.reddit.presentation.adapter.ViewPagerAdapter
 import com.semenov.reddit.presentation.news.NewsFragment
 import com.semenov.reddit.presentation.save.SaveFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
@@ -20,8 +32,10 @@ class MainFragment : Fragment() {
         SaveFragment(),
     )
     lateinit var navView: BottomNavigationView
+    lateinit var toolbar: MaterialToolbar
     private lateinit var viewPager: ViewPager2
     private lateinit var adapter: ViewPagerAdapter
+    private val repository = InstanceProvider.getRepository()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,10 +45,32 @@ class MainFragment : Fragment() {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         navView = binding.bottomNavigationView
         viewPager = binding.viewPager2
-        init()
+        binding.viewPager2.adapter = adapter
+
+        toolbar = binding.toolbar
+        val iconDrawable = DrawableCompat.wrap(ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)!!)
+        iconDrawable.setTint(Color.WHITE)
+        val menuItem = binding.toolbar.menu.add(R.string.remove_item)
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        menuItem.icon = iconDrawable
+        toolbar.title = "News"
+        menuItem.isVisible = false
+        menuItem.setOnMenuItemClickListener {
+            showDialog()
+            return@setOnMenuItemClickListener true
+        }
+
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 navView.menu.getItem(position).isChecked = true
+                if(position == 0) {
+                    toolbar.title = "News"
+                    menuItem.isVisible = false
+                }
+                else {
+                    toolbar.title = "Saved"
+                    menuItem.isVisible = true
+                }
             }
         })
         navView.setOnItemSelectedListener {
@@ -53,8 +89,32 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    private fun init() {
-        binding.viewPager2.adapter = adapter
+    private fun deleteAll () {
+        lifecycleScope.launch(Dispatchers.IO) { repository.deleteAllDB() }
+    }
+
+    private fun showDialog () {
+        val listener = DialogInterface.OnClickListener { _, which ->
+            when (which) {
+                DialogInterface.BUTTON_POSITIVE -> {
+                    deleteAll()
+                    showToast(R.string.delete_all)
+                }
+                DialogInterface.BUTTON_NEGATIVE -> showToast(R.string.cancel)
+            }
+        }
+        val dialog = AlertDialog.Builder(requireContext())
+            .setCancelable(false)
+            .setMessage(R.string.default_alert_message)
+            .setPositiveButton(R.string.action_yes, listener)
+            .setNegativeButton(R.string.action_no, listener)
+            .create()
+
+        dialog.show()
+        }
+
+    private fun showToast(messageRes: Int) {
+        Toast.makeText(requireContext(), messageRes, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
