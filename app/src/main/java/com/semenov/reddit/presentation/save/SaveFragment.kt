@@ -40,8 +40,7 @@ class SaveFragment : Fragment(), ItemClickListener {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.getListEntityRedditVM().collect {
-                    adapter.newListReddit(viewModel.listRedditLiveData.value)
-                }
+                    adapter.newListReddit(it) }
             }
         }
     }

@@ -4,11 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.data.model.domain.Reddit
+import com.semenov.reddit.presentation.main.MainViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class NewsViewModel : ViewModel() {
@@ -17,18 +15,18 @@ class NewsViewModel : ViewModel() {
         get() = _listRedditLiveData
     private val _listRedditLiveData: MutableStateFlow<List<Reddit>> = MutableStateFlow(emptyList())
     private val repository = InstanceProvider.getRepository()
-
-    fun getListRedditVM(): Flow<List<Reddit>> = flow {
-        repository.getListRedditRepository().collect {
-            _listRedditLiveData.value = it
-            emit(it)
+    fun getListRedditVM() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getListRedditRepository().collect {
+                _listRedditLiveData.value = it
+            }
         }
     }
 
     fun saveReddit(reddit: Reddit) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.saveRedditInDB(reddit)
-            _listRedditLiveData.mutate { list ->
+            _listRedditLiveData.onEach { list ->
                 list?.map {
                     when (reddit.id) {
                         it.id -> reddit.copy(saved = true)
@@ -42,8 +40,8 @@ class NewsViewModel : ViewModel() {
     fun removeReddit(reddit: Reddit) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteRedditDB(reddit.id)
-            _listRedditLiveData.mutate { list ->
-                list?.map {
+            _listRedditLiveData.onEach { list ->
+                list.map {
                     when (reddit.id) {
                         it.id -> reddit.copy(saved = false)
                         else -> it

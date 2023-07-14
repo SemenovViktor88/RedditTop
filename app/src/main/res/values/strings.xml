@@ -12,8 +12,8 @@
     <string name="cancel">Сanceled</string>
     <string name="action_yes">Yes</string>
     <string name="action_no">No</string>
-    <string name="delete_all">You have deleted all entries from the database:</string>
-    <string name="default_alert_message">Are you sure you want to clear the database?:</string>
+    <string name="delete_all">You have deleted all entries from the database</string>
+    <string name="default_alert_message">Are you sure you want to clear the database?</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

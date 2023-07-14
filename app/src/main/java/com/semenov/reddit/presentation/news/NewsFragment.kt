@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -30,6 +32,7 @@ class NewsFragment : Fragment(), ItemClickListener {
     ): View {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
+        viewModel.getListRedditVM()
         binding.rcViewNewsFragment.adapter = adapter
         return binding.root
     }
@@ -38,8 +41,8 @@ class NewsFragment : Fragment(), ItemClickListener {
         super.onViewCreated(view, savedInstanceState)
          viewLifecycleOwner.lifecycleScope.launch {
              repeatOnLifecycle(Lifecycle.State.STARTED) {
-                 viewModel.getListRedditVM().collect{
-                     adapter.newListReddit(viewModel.listRedditLiveData.value)
+                 viewModel.listRedditLiveData.collect{
+                     adapter.newListReddit(it)
                  }
              }
          }

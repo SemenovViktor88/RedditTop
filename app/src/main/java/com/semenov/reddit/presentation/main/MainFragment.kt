@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.appbar.MaterialToolbar
@@ -32,10 +33,9 @@ class MainFragment : Fragment() {
         SaveFragment(),
     )
     lateinit var navView: BottomNavigationView
-    lateinit var toolbar: MaterialToolbar
     private lateinit var viewPager: ViewPager2
     private lateinit var adapter: ViewPagerAdapter
-    private val repository = InstanceProvider.getRepository()
+    private val viewModel = MainViewModel()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,9 +47,9 @@ class MainFragment : Fragment() {
         viewPager = binding.viewPager2
         binding.viewPager2.adapter = adapter
 
-        toolbar = binding.toolbar
-        val iconDrawable = DrawableCompat.wrap(ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)!!)
-        iconDrawable.setTint(Color.WHITE)
+        val toolbar = binding.toolbar
+        val iconDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_delete)
+            ?.let { DrawableCompat.wrap(it) }
         val menuItem = binding.toolbar.menu.add(R.string.remove_item)
         menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         menuItem.icon = iconDrawable
@@ -89,15 +89,12 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    private fun deleteAll () {
-        lifecycleScope.launch(Dispatchers.IO) { repository.deleteAllDB() }
-    }
 
     private fun showDialog () {
         val listener = DialogInterface.OnClickListener { _, which ->
             when (which) {
                 DialogInterface.BUTTON_POSITIVE -> {
-                    deleteAll()
+                    viewModel.deleteAll()
                     showToast(R.string.delete_all)
                 }
                 DialogInterface.BUTTON_NEGATIVE -> showToast(R.string.cancel)
