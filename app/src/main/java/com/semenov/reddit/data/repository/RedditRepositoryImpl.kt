@@ -6,37 +6,32 @@ import com.semenov.reddit.data.model.domain.toDatabaseModel
 import com.semenov.reddit.data.model.net.toDomainModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
-import com.semenov.reddit.data.network.RedditApi as RemoteDataSource
 import com.semenov.reddit.data.database.RedditDatabase as LocalDataSource
+import com.semenov.reddit.data.network.RedditApi as RemoteDataSource
 
 class RedditRepositoryImpl(
     private val remote: RemoteDataSource,
     private val local: LocalDataSource,
 ) : RedditRepository {
 
-    override val listRedditInDBStateFlow: StateFlow<List<Reddit>>
-        get() = _listRedditInDBStateFlow
-    private val _listRedditInDBStateFlow=
-        getAllRedditDB().stateIn(GlobalScope, SharingStarted.Eagerly, emptyList())
+    override val listRedditInDB: StateFlow<List<Reddit>>
+        get() = _listRedditInDB
+    private val _listRedditInDB=
+        getAllRedditInDB().stateIn(GlobalScope, SharingStarted.Eagerly, emptyList())
 
-    override val listRedditForNewsViewModel: StateFlow<List<Reddit>>
-        get() = _listRedditForNewsViewModel
-    private val _listRedditForNewsViewModel: StateFlow<List<Reddit>> =
-        getListRedditRepository().stateIn(GlobalScope, SharingStarted.Eagerly, emptyList())
-
-    override fun getListRedditRepository() = flow {
+    override suspend fun getAllReddit() : List<Reddit> {
         val listApiReddit = remote.getListApiReddit()
-        val resultList = listApiReddit?.data?.children?.mapIndexed { index, apiRedditChildren ->
-                val data = apiRedditChildren.data
-                val saved = _listRedditInDBStateFlow.value.find { reddit ->
-                    reddit.id == data.id
-                } != null
-                data.toDomainModel(saved =saved)
+        val resultList = listApiReddit?.data?.children?.map { apiRedditChildren ->
+            val data = apiRedditChildren.data
+            val saved = _listRedditInDB.value.find { reddit ->
+                reddit.id == data.id
+            } != null
+            data.toDomainModel(saved = saved)
         }.orEmpty()
-        emit(resultList)
+        return resultList
     }
 
-    override fun getAllRedditDB(): Flow<List<Reddit>> = local.redditDao().getAllReddit().map { it.toDomainModel() }
+    override fun getAllRedditInDB(): Flow<List<Reddit>> = local.redditDao().getAllReddit().map { it.toDomainModel() }
 
     override suspend fun saveRedditInDB(reddit: Reddit) {
         val result = reddit.toDatabaseModel()
