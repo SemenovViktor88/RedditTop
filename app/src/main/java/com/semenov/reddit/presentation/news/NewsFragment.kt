@@ -32,8 +32,8 @@ class NewsFragment : Fragment(), ItemClickListener {
     ): View {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
-        viewModel.getListRedditVM()
         binding.rcViewNewsFragment.adapter = adapter
+        viewModel.getListRedditVM()
         return binding.root
     }
 

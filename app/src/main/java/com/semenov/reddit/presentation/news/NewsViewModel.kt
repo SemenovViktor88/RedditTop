@@ -16,37 +16,37 @@ class NewsViewModel : ViewModel() {
     private val repository = InstanceProvider.getRepository()
     fun getListRedditVM() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getListRedditRepository().collect {
+            repository.listRedditForNewsViewModel.collect {
                 _listRedditLiveData.value = it
             }
         }
     }
 
+
     fun saveReddit(reddit: Reddit) {
+        val list = _listRedditLiveData.value
+        list.onEach {
+            when (it.id) {
+                reddit.id -> it.copy(saved = true)
+                else -> it
+            }
+        }
+        _listRedditLiveData.value = list
         viewModelScope.launch(Dispatchers.IO) {
             repository.saveRedditInDB(reddit)
-            _listRedditLiveData.onEach { list ->
-                list?.map {
-                    when (reddit.id) {
-                        it.id -> reddit.copy(saved = true)
-                        else -> it
-                    }
-                }
-            }
         }
     }
 
     fun removeReddit(reddit: Reddit) {
+        _listRedditLiveData.value.map {
+            when (it.id) {
+                reddit.id -> it.copy(saved = false)
+                else -> it
+            }
+        }
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteRedditDB(reddit.id)
-            _listRedditLiveData.onEach { list ->
-                list.map {
-                    when (reddit.id) {
-                        it.id -> reddit.copy(saved = false)
-                        else -> it
-                    }
-                }
-            }
+
         }
     }
 }

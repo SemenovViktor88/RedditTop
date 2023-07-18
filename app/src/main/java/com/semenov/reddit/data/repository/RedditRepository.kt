@@ -1,11 +1,13 @@
 package com.semenov.reddit.data.repository
 
 import com.semenov.reddit.data.model.domain.Reddit
+import com.semenov.reddit.data.model.net.RootList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 interface RedditRepository {
     val listRedditInDBStateFlow: StateFlow<List<Reddit>>
+    val listRedditForNewsViewModel: StateFlow<List<Reddit>>
     fun getListRedditRepository(): Flow<List<Reddit>>
     suspend fun saveRedditInDB(reddit: Reddit)
     fun getAllRedditDB(): Flow<List<Reddit>>

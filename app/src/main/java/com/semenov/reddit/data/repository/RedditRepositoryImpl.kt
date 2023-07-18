@@ -16,26 +16,32 @@ class RedditRepositoryImpl(
 
     override val listRedditInDBStateFlow: StateFlow<List<Reddit>>
         get() = _listRedditInDBStateFlow
-    private val _listRedditInDBStateFlow= getAllRedditDB().stateIn(GlobalScope, SharingStarted.Eagerly, emptyList())
+    private val _listRedditInDBStateFlow=
+        getAllRedditDB().stateIn(GlobalScope, SharingStarted.Eagerly, emptyList())
+
+    override val listRedditForNewsViewModel: StateFlow<List<Reddit>>
+        get() = _listRedditForNewsViewModel
+    private val _listRedditForNewsViewModel: StateFlow<List<Reddit>> =
+        getListRedditRepository().stateIn(GlobalScope, SharingStarted.Eagerly, emptyList())
 
     override fun getListRedditRepository() = flow {
-        val listApiReddit = remote.getListApiReddit()?.data
-        val resultList = listApiReddit?.children?.mapIndexed { index, apiRedditChildren ->
-            val data = apiRedditChildren.data
-            val saved = _listRedditInDBStateFlow.value.find {
-                it.id == data.id
-            } != null
-            data.toDomainModel(saved)
+        val listApiReddit = remote.getListApiReddit()
+        val resultList = listApiReddit?.data?.children?.mapIndexed { index, apiRedditChildren ->
+                val data = apiRedditChildren.data
+                val saved = _listRedditInDBStateFlow.value.find { reddit ->
+                    reddit.id == data.id
+                } != null
+                data.toDomainModel(saved =saved)
         }.orEmpty()
         emit(resultList)
     }
+
+    override fun getAllRedditDB(): Flow<List<Reddit>> = local.redditDao().getAllReddit().map { it.toDomainModel() }
 
     override suspend fun saveRedditInDB(reddit: Reddit) {
         val result = reddit.toDatabaseModel()
         local.redditDao().insertReddit(result)
     }
-
-    override fun getAllRedditDB(): Flow<List<Reddit>> = local.redditDao().getAllReddit().map { it.toDomainModel() }
 
     override suspend fun getRedditDB(id: String) = local.redditDao().getReddit(id).toDomainModel()
 
