@@ -14,37 +14,26 @@ class RedditRepositoryImpl(
     private val local: LocalDataSource,
 ) : RedditRepository {
 
-    override val listRedditInDB: StateFlow<List<Reddit>>
-        get() = _listRedditInDB
-    private val _listRedditInDB=
-        getAllRedditInDB().stateIn(GlobalScope, SharingStarted.Eagerly, emptyList())
+    override val listEntityRedditInDB: StateFlow<List<Reddit>>
+        get() = _listEntityRedditInDB
+    private val _listEntityRedditInDB= getAllEntityReddit().stateIn(GlobalScope, SharingStarted.Eagerly, emptyList())
 
-    override suspend fun getAllReddit() : List<Reddit> {
-        val listApiReddit = remote.getListApiReddit()
-        val resultList = listApiReddit?.data?.children?.map { apiRedditChildren ->
-            val data = apiRedditChildren.data
-            val saved = _listRedditInDB.value.find { reddit ->
-                reddit.id == data.id
-            } != null
-            data.toDomainModel(saved = saved)
-        }.orEmpty()
-        return resultList
-    }
+    override suspend fun getApiReddit(): List<Reddit> = remote.getListApiReddit()?.data?.children?.toDomainModel() ?: emptyList()
 
-    override fun getAllRedditInDB(): Flow<List<Reddit>> = local.redditDao().getAllReddit().map { it.toDomainModel() }
+    override fun getAllEntityReddit(): Flow<List<Reddit>> = local.redditDao().getAllReddit().map { it.toDomainModel() }
 
-    override suspend fun saveRedditInDB(reddit: Reddit) {
+    override suspend fun saveEntityReddit(reddit: Reddit) {
         val result = reddit.toDatabaseModel()
         local.redditDao().insertReddit(result)
     }
 
-    override suspend fun getRedditDB(id: String) = local.redditDao().getReddit(id).toDomainModel()
+    override suspend fun getEntityReddit(id: String) = local.redditDao().getReddit(id).toDomainModel()
 
-    override suspend fun deleteRedditDB(id: String) {
+    override suspend fun deleteEntityReddit(id: String) {
         local.redditDao().deleteReddit(id)
     }
 
-    override suspend fun deleteAllDB() {
+    override suspend fun deleteAllEntityReddit() {
         local.redditDao().deleteAll()
     }
 }

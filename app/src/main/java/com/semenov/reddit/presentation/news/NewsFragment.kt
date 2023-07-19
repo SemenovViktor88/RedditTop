@@ -5,14 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.R
+import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.databinding.FragmentNewsBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.semenov.reddit.presentation.adapter.RecyclerViewAdapter
@@ -33,7 +31,6 @@ class NewsFragment : Fragment(), ItemClickListener {
         binding = FragmentNewsBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
         binding.rcViewNewsFragment.adapter = adapter
-        viewModel.getListRedditVM()
         return binding.root
     }
 
@@ -41,7 +38,7 @@ class NewsFragment : Fragment(), ItemClickListener {
         super.onViewCreated(view, savedInstanceState)
          viewLifecycleOwner.lifecycleScope.launch {
              repeatOnLifecycle(Lifecycle.State.STARTED) {
-                 viewModel.listRedditLiveData.collect{
+                 viewModel.listReddit.collect{
                      adapter.newListReddit(it)
                  }
              }

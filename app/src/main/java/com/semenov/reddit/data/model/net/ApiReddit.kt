@@ -41,3 +41,19 @@ fun ApiReddit.toDomainModel(saved: Boolean) = Reddit(
     ups = ups ?: 0,
     saved = saved,
 )
+
+fun List<ApiRedditChildren>.toDomainModel(): List<Reddit>{
+    return map {
+        Reddit(
+            id = it.data.id ?: "",
+            subreddit = it.data.subreddit ?: "",
+            title = it.data.title ?: "",
+            thumbnail = it.data.thumbnail ?: "",
+            author = it.data.author ?: "",
+            url = it.data.url ?: "",
+            num_comments = it.data.num_comments ?: 0,
+            created = it.data.created ?: 0,
+            ups = it.data.ups ?: 0,
+            saved = it.data.saved,)
+    }
+}

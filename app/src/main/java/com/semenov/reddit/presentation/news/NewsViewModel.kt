@@ -7,43 +7,44 @@ import com.semenov.reddit.data.model.domain.Reddit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class NewsViewModel : ViewModel() {
 
-    val listRedditLiveData: StateFlow<List<Reddit>>
-        get() = _listRedditLiveData
-    private val _listRedditLiveData: MutableStateFlow<List<Reddit>> = MutableStateFlow(emptyList())
+    init {
+        getListReddit()
+    }
+
+    val listReddit: StateFlow<List<Reddit>>
+        get() = _listReddit
+    private val _listReddit: MutableStateFlow<List<Reddit>> = MutableStateFlow(emptyList())
     private val repository = InstanceProvider.getRepository()
-    fun getListRedditVM() {
-        viewModelScope.launch {
-            _listRedditLiveData.value = repository.getAllReddit()
+
+    private fun getListReddit() {
+        viewModelScope.launch(Dispatchers.Main) {
+            _listReddit.value = repository.getApiReddit()
+            val listEntityReddit = repository.listEntityRedditInDB
+            _listReddit.combine(listEntityReddit) { listReddit, _listEntityReddit ->
+                _listReddit.value = listReddit.map {
+                    val saved = _listEntityReddit.find { reddit ->
+                        reddit.id == it.id
+                    } != null
+                    it.copy(saved = saved)
+                }
+            }.collect { _listReddit }
         }
     }
 
     fun saveReddit(reddit: Reddit) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.saveRedditInDB(reddit)
-            val list = _listRedditLiveData.value.map {
-                when (it.id) {
-                    reddit.id -> it.copy(saved = true)
-                    else -> it
-                }
-            }
-            _listRedditLiveData.value = list
+            repository.saveEntityReddit(reddit)
         }
     }
 
     fun removeReddit(reddit: Reddit) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteRedditDB(reddit.id)
-            val list = _listRedditLiveData.value.map {
-                when (it.id) {
-                    reddit.id -> it.copy(saved = false)
-                    else -> it
-                }
-            }
-            _listRedditLiveData.value = list
+            repository.deleteEntityReddit(reddit.id)
         }
     }
 }

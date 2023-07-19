@@ -11,9 +11,9 @@ class SaveViewModel : ViewModel() {
 
     private val repository = InstanceProvider.getRepository()
 
-    fun getListEntityRedditVM() = repository.listRedditInDB
+    fun getListEntityReddit() = repository.listEntityRedditInDB
 
     fun deleteReddit(reddit: Reddit) {
-        viewModelScope.launch(Dispatchers.IO) { repository.deleteRedditDB(reddit.id) }
+        viewModelScope.launch(Dispatchers.IO) { repository.deleteEntityReddit(reddit.id) }
     }
 }

@@ -13,8 +13,8 @@ import com.semenov.reddit.R
 import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.databinding.FragmentSaveBinding
 import com.semenov.reddit.presentation.ItemClickListener
-import com.semenov.reddit.presentation.info.InfoFragment
 import com.semenov.reddit.presentation.adapter.RecyclerViewAdapter
+import com.semenov.reddit.presentation.info.InfoFragment
 import kotlinx.coroutines.launch
 
 class SaveFragment : Fragment(), ItemClickListener {
@@ -39,7 +39,7 @@ class SaveFragment : Fragment(), ItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getListEntityRedditVM().collect {
+                viewModel.getListEntityReddit().collect {
                     adapter.newListReddit(it) }
             }
         }
