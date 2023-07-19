@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.R
+import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.databinding.ItemLayoutBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.squareup.picasso.Picasso
@@ -30,13 +30,14 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemLayoutBinding.bind(itemView)
+        private val unixTime = System.currentTimeMillis() / 1000
         fun bind(listItem: Reddit) = with(binding) {
             author.text = listItem.author
             subredit.text = listItem.subreddit
             numComments.text = listItem.num_comments.toString()
             rating.text = listItem.ups.toString()
 
-            created.text = listItem.created.toString()
+            created.text = ((unixTime - listItem.created)/3600).toString()
 
             if (listItem.thumbnail.isEmpty()) Picasso.get().load(R.drawable.photo).into(image)
             else Picasso.get().load(listItem.thumbnail).into(image)
