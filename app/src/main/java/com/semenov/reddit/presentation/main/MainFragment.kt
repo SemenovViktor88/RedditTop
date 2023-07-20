@@ -2,7 +2,6 @@ package com.semenov.reddit.presentation.main
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -12,19 +11,13 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.R
 import com.semenov.reddit.databinding.FragmentMainBinding
 import com.semenov.reddit.presentation.adapter.ViewPagerAdapter
 import com.semenov.reddit.presentation.news.NewsFragment
 import com.semenov.reddit.presentation.save.SaveFragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
