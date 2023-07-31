@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.semenov.reddit.R
 import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.databinding.FragmentNewsBinding
 import com.semenov.reddit.presentation.ItemClickListener
 import com.semenov.reddit.presentation.adapter.RecyclerViewAdapter
 import com.semenov.reddit.presentation.info.InfoFragment
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class NewsFragment : Fragment(), ItemClickListener {
 
@@ -36,13 +35,9 @@ class NewsFragment : Fragment(), ItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         viewLifecycleOwner.lifecycleScope.launch {
-             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                 viewModel.listReddit.collect{
-                     adapter.newListReddit(it)
-                 }
-             }
-         }
+        viewModel.listReddit
+            .onEach{ adapter.newListReddit(it) }
+            .launchIn(lifecycleScope)
     }
 
     override fun onItemClicked() {

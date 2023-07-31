@@ -14,17 +14,12 @@ class RedditRepositoryImpl(
     private val local: LocalDataSource,
 ) : RedditRepository {
 
-    override val listEntityRedditInDB: StateFlow<List<Reddit>>
-        get() = _listEntityRedditInDB
-    private val _listEntityRedditInDB= getAllEntityReddit().stateIn(GlobalScope, SharingStarted.Eagerly, emptyList())
-
     override suspend fun getApiReddit(): List<Reddit> = remote.getListApiReddit()?.data?.children?.toDomainModel() ?: emptyList()
 
     override fun getAllEntityReddit(): Flow<List<Reddit>> = local.redditDao().getAllReddit().map { it.toDomainModel() }
 
     override suspend fun saveEntityReddit(reddit: Reddit) {
-        val result = reddit.toDatabaseModel()
-        local.redditDao().insertReddit(result)
+        local.redditDao().insertReddit(reddit.toDatabaseModel())
     }
 
     override suspend fun getEntityReddit(id: String) = local.redditDao().getReddit(id).toDomainModel()

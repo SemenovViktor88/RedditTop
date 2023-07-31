@@ -5,9 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.semenov.reddit.InstanceProvider
 import com.semenov.reddit.data.model.domain.Reddit
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class NewsViewModel : ViewModel() {
@@ -24,8 +22,7 @@ class NewsViewModel : ViewModel() {
     private fun getListReddit() {
         viewModelScope.launch(Dispatchers.Main) {
             _listReddit.value = repository.getApiReddit()
-            val listEntityReddit = repository.listEntityRedditInDB
-            _listReddit.combine(listEntityReddit) { listReddit, _listEntityReddit ->
+            _listReddit.combine(getListEntityReddit()) { listReddit, _listEntityReddit ->
                 _listReddit.value = listReddit.map {
                     val saved = _listEntityReddit.find { reddit ->
                         reddit.id == it.id
@@ -35,6 +32,8 @@ class NewsViewModel : ViewModel() {
             }.collect { _listReddit }
         }
     }
+
+    private fun getListEntityReddit () = repository.getAllEntityReddit().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     fun saveReddit(reddit: Reddit) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -47,8 +46,4 @@ class NewsViewModel : ViewModel() {
             repository.deleteEntityReddit(reddit.id)
         }
     }
-}
-
-inline fun <reified T : Any?> MutableStateFlow<T>.mutate(action: (T?) -> T?) {
-    action(value)
 }

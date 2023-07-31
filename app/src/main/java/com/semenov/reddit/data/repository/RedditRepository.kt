@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 interface RedditRepository {
-    val listEntityRedditInDB: StateFlow<List<Reddit>>
     suspend fun getApiReddit(): List<Reddit>
     suspend fun saveEntityReddit(reddit: Reddit)
     fun getAllEntityReddit(): Flow<List<Reddit>>
