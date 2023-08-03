@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.semenov.reddit.R
@@ -28,12 +29,13 @@ class MainFragment : Fragment() {
     lateinit var navView: BottomNavigationView
     private lateinit var viewPager: ViewPager2
     private lateinit var adapter: ViewPagerAdapter
-    private val viewModel = MainViewModel()
+    private lateinit var viewModel: MainViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         adapter = ViewPagerAdapter(requireActivity(), fragList)
         binding = FragmentMainBinding.inflate(inflater, container, false)
         navView = binding.bottomNavigationView
@@ -56,11 +58,10 @@ class MainFragment : Fragment() {
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 navView.menu.getItem(position).isChecked = true
-                if(position == 0) {
+                if (position == 0) {
                     toolbar.title = "News"
                     menuItem.isVisible = false
-                }
-                else {
+                } else {
                     toolbar.title = "Saved"
                     menuItem.isVisible = true
                 }
@@ -83,7 +84,7 @@ class MainFragment : Fragment() {
     }
 
 
-    private fun showDialog () {
+    private fun showDialog() {
         val listener = DialogInterface.OnClickListener { _, which ->
             when (which) {
                 DialogInterface.BUTTON_POSITIVE -> {
@@ -101,7 +102,7 @@ class MainFragment : Fragment() {
             .create()
 
         dialog.show()
-        }
+    }
 
     private fun showToast(messageRes: Int) {
         Toast.makeText(requireContext(), messageRes, Toast.LENGTH_SHORT).show()

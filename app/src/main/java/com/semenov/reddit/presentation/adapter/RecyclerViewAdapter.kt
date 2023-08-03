@@ -37,7 +37,7 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
             numComments.text = listItem.num_comments.toString()
             rating.text = listItem.ups.toString()
 
-            created.text = ((unixTime - listItem.created)/3600).toString()
+            created.text = ((unixTime - listItem.created) / 3600).toString()
 
             if (listItem.thumbnail.isEmpty()) Picasso.get().load(R.drawable.photo).into(image)
             else Picasso.get().load(listItem.thumbnail).into(image)

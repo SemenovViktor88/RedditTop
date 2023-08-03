@@ -2,7 +2,6 @@ package com.semenov.reddit.data.repository
 
 import com.semenov.reddit.data.model.domain.Reddit
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 
 interface RedditRepository {
     suspend fun getApiReddit(): List<Reddit>

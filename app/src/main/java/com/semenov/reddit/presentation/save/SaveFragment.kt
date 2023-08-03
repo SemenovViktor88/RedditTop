@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.semenov.reddit.R
 import com.semenov.reddit.data.model.domain.Reddit
@@ -36,6 +37,7 @@ class SaveFragment : Fragment(), ItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getListEntityReddit()
+            .flowWithLifecycle(lifecycle)
             .onEach { adapter.newListReddit(it) }
             .launchIn(lifecycleScope)
     }

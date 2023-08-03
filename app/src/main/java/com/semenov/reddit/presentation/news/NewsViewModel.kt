@@ -33,7 +33,8 @@ class NewsViewModel : ViewModel() {
         }
     }
 
-    private fun getListEntityReddit () = repository.getAllEntityReddit().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    private fun getListEntityReddit() =
+        repository.getAllEntityReddit().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     fun saveReddit(reddit: Reddit) {
         viewModelScope.launch(Dispatchers.IO) {

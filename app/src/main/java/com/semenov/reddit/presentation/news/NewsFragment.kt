@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.semenov.reddit.R
 import com.semenov.reddit.data.model.domain.Reddit
@@ -36,7 +37,8 @@ class NewsFragment : Fragment(), ItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.listReddit
-            .onEach{ adapter.newListReddit(it) }
+            .flowWithLifecycle(lifecycle)
+            .onEach { adapter.newListReddit(it) }
             .launchIn(lifecycleScope)
     }
 
@@ -48,8 +50,8 @@ class NewsFragment : Fragment(), ItemClickListener {
     }
 
     override fun onSaveDeleteClicked(reddit: Reddit) {
-        when(reddit.saved){
-            true ->  viewModel.removeReddit(reddit)
+        when (reddit.saved) {
+            true -> viewModel.removeReddit(reddit)
             false -> viewModel.saveReddit(reddit)
         }
     }
