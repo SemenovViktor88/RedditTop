@@ -11,6 +11,6 @@ class MainViewModel : ViewModel() {
     private val repository = InstanceProvider.getRepository()
 
     fun deleteAll() {
-        viewModelScope.launch(Dispatchers.IO) { repository.deleteAllEntityReddit() }
+        viewModelScope.launch(Dispatchers.IO) { repository.deleteAllSavedReddit() }
     }
 }

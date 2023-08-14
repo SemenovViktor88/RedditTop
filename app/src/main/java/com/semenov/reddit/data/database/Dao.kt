@@ -17,6 +17,9 @@ interface Dao {
     @Query("SELECT * FROM SavedReddit WHERE id = :id")
     suspend fun getReddit(id: String): EntityReddit
 
+    @Query("SELECT * FROM SavedReddit WHERE id IN (:ids)")
+    suspend fun getReddits(ids: List<String>): List<EntityReddit>
+
     @Query("DELETE FROM SavedReddit WHERE id = :id")
     suspend fun deleteReddit(id: String)
 

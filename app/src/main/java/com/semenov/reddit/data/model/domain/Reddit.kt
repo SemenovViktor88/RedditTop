@@ -28,3 +28,8 @@ fun Reddit.toDatabaseModel(): EntityReddit {
         ups = ups
     )
 }
+
+data class RedditsPage(
+    val items: List<Reddit>,
+    val token: String,
+)

@@ -14,9 +14,9 @@ class SaveViewModel : ViewModel() {
     private val repository = InstanceProvider.getRepository()
 
     fun getListEntityReddit() =
-        repository.getAllEntityReddit().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+        repository.getAllSavedReddit().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     fun deleteReddit(reddit: Reddit) {
-        viewModelScope.launch(Dispatchers.IO) { repository.deleteEntityReddit(reddit.id) }
+        viewModelScope.launch(Dispatchers.IO) { repository.deleteSavedReddit(reddit.id) }
     }
 }
