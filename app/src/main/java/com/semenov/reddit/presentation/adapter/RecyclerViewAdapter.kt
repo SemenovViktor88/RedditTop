@@ -45,7 +45,7 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
             if (listItem.saved) floatingActionButton.setColorFilter(Color.argb(255, 255, 120, 0))
             else floatingActionButton.setColorFilter(Color.argb(255, 255, 255, 255))
 
-            constrainlayout.setOnClickListener { listener.onItemClicked() }
+            constrainlayout.setOnClickListener { listener.onItemClicked(listItem) }
             floatingActionButton.setOnClickListener {
                 listener.onSaveDeleteClicked(listItem)
             }

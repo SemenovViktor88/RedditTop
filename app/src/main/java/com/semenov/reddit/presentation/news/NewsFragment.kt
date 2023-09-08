@@ -43,10 +43,10 @@ class NewsFragment : Fragment(), ItemClickListener {
             .launchIn(lifecycleScope)
     }
 
-    override fun onItemClicked() {
+    override fun onItemClicked(reddit: Reddit) {
         if (isAdded) {
             parentFragmentManager.beginTransaction().addToBackStack(null)
-                .replace(R.id.frameLayoutMainActivity, InfoFragment.newInstance()).commit()
+                .replace(R.id.frameLayoutMainActivity, InfoFragment.newInstance(reddit)).commit()
         }
     }
 

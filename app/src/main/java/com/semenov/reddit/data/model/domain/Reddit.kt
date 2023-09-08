@@ -1,7 +1,10 @@
 package com.semenov.reddit.data.model.domain
 
+import android.os.Parcelable
 import com.semenov.reddit.data.model.db.EntityReddit
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Reddit(
     val id: String,
     val saved: Boolean,
@@ -13,7 +16,14 @@ data class Reddit(
     val num_comments: Int,
     val created: Long,
     val ups: Int,
-)
+
+): Parcelable{
+    companion object {
+        fun createEmpty(): Reddit {
+            return Reddit("",false,"","","","","",0,0L,0)
+        }
+    }
+}
 
 fun Reddit.toDatabaseModel(): EntityReddit {
     return EntityReddit(
