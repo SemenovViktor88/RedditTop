@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.semenov.reddit.R
 import com.semenov.reddit.data.model.domain.Reddit
 import com.semenov.reddit.databinding.FragmentNewsBinding
@@ -32,6 +34,20 @@ class NewsFragment : Fragment(), ItemClickListener {
         viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
         binding.rcViewNewsFragment.adapter = adapter
         viewModel.loadInitial()
+        binding.rcViewNewsFragment.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                if(!viewModel.isLoading){
+                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
+                        && firstVisibleItemPosition >= 0) {
+                        viewModel.loadNext()
+                    }
+                }
+            }
+        })
         return binding.root
     }
 

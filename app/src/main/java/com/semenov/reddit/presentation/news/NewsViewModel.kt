@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 class NewsViewModel : ViewModel() {
 
     private var token: String = ""
+    var isLoading = false
     val listReddit: StateFlow<List<Reddit>>
         get() = _listReddit
     private val _listReddit: MutableStateFlow<List<Reddit>> = MutableStateFlow(emptyList())
@@ -42,8 +43,10 @@ class NewsViewModel : ViewModel() {
     }
 
     private fun loadReddits(after: String = "") = viewModelScope.launch {
+        isLoading = true
         val page = repository.getApiReddit(after)
-        _listReddit.value = page.items
+        _listReddit.value = _listReddit.value + page.items
+        isLoading = false
         token = page.token
     }
 

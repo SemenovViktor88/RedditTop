@@ -64,7 +64,7 @@ class InfoFragment : Fragment() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.LightGray)
+                .background(Color(0xFF455A64))
         ) {
             Text(
                 buildAnnotatedString {
@@ -72,24 +72,30 @@ class InfoFragment : Fragment() {
                         append(reddit.value.subreddit)
                     }
                     append(" • Posted by u/${reddit.value.author} $hours hours ago ")
-                }
+                },
+                modifier = Modifier.padding(5.dp),
+                color = Color.White
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                reddit.value.title,
+                text = reddit.value.title,
+                modifier = Modifier.padding(5.dp),
                 style = TextStyle(
                     fontSize = 20.sp,
                     fontStyle = FontStyle.Italic,
                     fontWeight = FontWeight.Bold,
+                    color = Color.White
                 ))
             Spacer(modifier = Modifier.height(8.dp))
-            AsyncImage(
-                model = reddit.value.thumbnail ,
-                contentDescription = "thumbnail",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp)
-            )
+            if(reddit.value.thumbnail.isNotEmpty()) {
+                AsyncImage(
+                    model = reddit.value.thumbnail,
+                    contentDescription = "thumbnail",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp)
+                )
+            }
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -107,8 +113,8 @@ class InfoFragment : Fragment() {
                         }
                     },
                     modifier = Modifier.align(Alignment.CenterStart),
+                    color = Color.White
                 )
-
                 IconButton(
                     modifier = Modifier.align(Alignment.CenterEnd),
                     onClick = { onSaveDeleteClicked(reddit.value) }

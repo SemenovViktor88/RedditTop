@@ -42,7 +42,7 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
             if (listItem.thumbnail.isEmpty()) Picasso.get().load(R.drawable.photo).into(image)
             else Picasso.get().load(listItem.thumbnail).into(image)
 
-            if (listItem.saved) floatingActionButton.setColorFilter(Color.argb(255, 255, 120, 0))
+            if (listItem.saved) floatingActionButton.setColorFilter(Color.argb(255, 255, 0, 0))
             else floatingActionButton.setColorFilter(Color.argb(255, 255, 255, 255))
 
             constrainlayout.setOnClickListener { listener.onItemClicked(listItem) }
