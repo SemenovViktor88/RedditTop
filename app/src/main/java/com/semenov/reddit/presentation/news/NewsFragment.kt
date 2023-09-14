@@ -65,7 +65,6 @@ class NewsFragment : Fragment(), ItemClickListener {
                 .replace(R.id.frameLayoutMainActivity, InfoFragment.newInstance(reddit)).commit()
         }
     }
-
     override fun onSaveDeleteClicked(reddit: Reddit) {
         when (reddit.saved) {
             true -> viewModel.removeReddit(reddit)
