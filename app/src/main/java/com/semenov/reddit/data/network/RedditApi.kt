@@ -1,9 +1,13 @@
 package com.semenov.reddit.data.network
 
-import com.semenov.reddit.data.model.RootList
+import com.semenov.reddit.data.model.net.RootList
 import retrofit2.http.GET
+import retrofit2.http.Query
 
-interface  RedditApi {
+interface RedditApi {
     @GET("top.json")
-    suspend fun getTopList(): RootList?
+    suspend fun getListApiReddit(
+        @Query("after") after: String?,
+        @Query("limit") limit: Int = 10,
+    ): RootList
 }
