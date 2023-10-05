@@ -46,7 +46,7 @@ class InfoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = ComposeView(requireContext()).apply{
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
@@ -64,14 +64,6 @@ class InfoFragment : Fragment() {
         val hours = ((unixTime - reddit.value.created) / 3600).toString()
         val items = listOf(
             reddit.value.thumbnail,
-            "https://cs8.pikabu.ru/post_img/big/2017/12/17/11/1513536040145249375.png",
-            "https://img3.akspic.ru/crops/1/9/8/0/60891/60891-rok-trava-akter-velikobritaniya-voda-1280x720.jpg",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Samurai_with_sword.jpg/300px-Samurai_with_sword.jpg",
-            "https://img.championat.com/i/x/f/1683892295464621642.jpg",
-            "https://kotlinlang.org/assets/images/twitter/general.png",
-            "https://cms-assets.tutsplus.com/uploads/users/1499/posts/29820/preview_image/kotlin.jpg",
-            "https://miro.medium.com/v2/resize:fit:480/1*OT4J6X5y_vrm5_5xpCUDKw.png",
-            "https://9to5google.com/wp-content/uploads/sites/4/2021/02/android-jetpack-header.png?w=1600",
         )
         LazyColumn(
             modifier = Modifier
