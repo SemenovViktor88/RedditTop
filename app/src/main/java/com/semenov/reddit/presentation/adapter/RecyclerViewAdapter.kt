@@ -36,17 +36,16 @@ class RecyclerViewAdapter(private val listener: ItemClickListener) :
             subredit.text = listItem.subreddit
             numComments.text = listItem.num_comments.toString()
             rating.text = listItem.ups.toString()
-
             created.text = ((unixTime - listItem.created) / 3600).toString()
 
-            if (listItem.thumbnail.isEmpty()) Picasso.get().load(R.drawable.photo).into(image)
+            if (listItem.thumbnail.isEmpty()) image.setImageResource(R.drawable.photo)
             else Picasso.get().load(listItem.thumbnail).into(image)
 
-            if (listItem.saved) floatingActionButton.setColorFilter(Color.argb(255, 255, 120, 0))
-            else floatingActionButton.setColorFilter(Color.argb(255, 255, 255, 255))
+            if (listItem.saved) saveButton.setColorFilter(Color.RED)
+            else saveButton.setColorFilter(Color.WHITE)
 
-            constrainlayout.setOnClickListener { listener.onItemClicked() }
-            floatingActionButton.setOnClickListener {
+            constrainlayout.setOnClickListener { listener.onItemClicked(listItem) }
+            saveButton.setOnClickListener {
                 listener.onSaveDeleteClicked(listItem)
             }
         }
